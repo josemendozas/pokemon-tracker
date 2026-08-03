@@ -337,12 +337,12 @@
     <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;">
       <h1 id="pageTitle">Tinieblas Umbrías · Pitch Black</h1>
       <select id="setSelector" style="font-size:13px;padding:5px 10px;">
-        <option value="tinieblas_umbrias" selected>Tinieblas Umbrías (Pitch Black)</option>
-        <option value="caos_creciente" disabled>Caos Creciente · próximamente</option>
-        <option value="equilibrio_perfecto" disabled>Equilibrio Perfecto · próximamente</option>
-        <option value="ascended_heroes" disabled>Ascended Heroes · próximamente</option>
-        <option value="llamaradas_infernales" disabled>Llamaradas Infernales · próximamente</option>
-        <option value="megaevolucion_base" disabled>Megaevolución base · próximamente</option>
+        <option value="tinieblas_umbrias">Tinieblas Umbrías · Pitch Black (jul 2026)</option>
+        <option value="caos_creciente">Caos Creciente · Chaos Rising (may 2026)</option>
+        <option value="equilibrio_perfecto">Equilibrio Perfecto · Perfect Order (mar 2026)</option>
+        <option value="ascenso_heroico">Ascenso Heroico · Ascended Heroes (ene 2026)</option>
+        <option value="llamaradas_fantasmales">Llamaradas Fantasmales · Phantasmal Flames (nov 2025)</option>
+        <option value="megaevolucion_base">Megaevolución · Mega Evolution (sep 2025)</option>
       </select>
     </div>
     <div class="subtitle" id="pageSubtitle">Megaevolución · 120 cartas · Click en ES o EN de cada variante</div>
@@ -409,11 +409,62 @@ const provider = new GoogleAuthProvider();
 let currentUser = null;
 let unsubscribeSnapshot = null;
 
+// Configuración de todos los sets. Los que no tienen `cards` usan modo genérico (slots numerados).
+const SETS = {
+  tinieblas_umbrias: {
+    displayName: "Tinieblas Umbrías",
+    slug: "pitch-black",
+    prefix: "KD5B_LA",
+    total: 120,
+    subtitle: "Megaevolución · 120 cartas · Click en ES o EN de cada variante",
+  },
+  caos_creciente: {
+    displayName: "Caos Creciente",
+    slug: "chaos-rising",
+    prefix: "SN54_LA",
+    total: 122,
+    subtitle: "Megaevolución · 122 cartas · Identifica por imagen",
+    generic: true,
+  },
+  equilibrio_perfecto: {
+    displayName: "Equilibrio Perfecto",
+    slug: "perfect-order",
+    prefix: "P614_LA",
+    total: 130,
+    subtitle: "Megaevolución · ~130 cartas · Identifica por imagen",
+    generic: true,
+  },
+  ascenso_heroico: {
+    displayName: "Ascenso Heroico",
+    slug: "ascended-heroes",
+    prefix: "M7XJ_LA",
+    total: 295,
+    subtitle: "Megaevolución · 295 cartas (set especial) · Identifica por imagen",
+    generic: true,
+  },
+  llamaradas_fantasmales: {
+    displayName: "Llamaradas Fantasmales",
+    slug: "phantasmal-flames",
+    prefix: "8BXG_LA",
+    total: 130,
+    subtitle: "Megaevolución · 130 cartas · Identifica por imagen",
+    generic: true,
+  },
+  megaevolucion_base: {
+    displayName: "Megaevolución (base)",
+    slug: "mega-evolution",
+    prefix: "JL2G_LA",
+    total: 180,
+    subtitle: "Megaevolución · ~180 cartas · Identifica por imagen",
+    generic: true,
+  },
+};
+
 // r = rarity, v = variants (1 or 2), label for special rarities
 // Rarezas: common/uncommon → 2 variantes (normal + reverse)
 // holo → 2 variantes (holo + reverse)
 // double (ex) / gold1 / silver2 / gold2 / mega → 1 variante
-const CARDS = [
+const TINIEBLAS_CARDS = [
   {n:1,name:"Tropius",r:"common"},
   {n:2,name:"Grubbin",r:"common"},
   {n:3,name:"Fomantis",r:"common"},
@@ -536,6 +587,7 @@ const CARDS = [
   {n:119,name:"Inma",r:"gold2"},
   {n:120,name:"Mega Darkrai ex",r:"mega"},
 ];
+SETS.tinieblas_umbrias.cards = TINIEBLAS_CARDS;
 
 const RARITY_LABEL = {
   common: "",
@@ -547,29 +599,38 @@ const RARITY_LABEL = {
   mega: "MEGA",
 };
 
-const IMG_BASE = "https://dz3we2x72f7ol.cloudfront.net/expansions/pitch-black/es-mx/KD5B_LA_";
-const STORAGE_KEY = "tinieblas_umbrias_collection_v2";
+let currentSetKey = localStorage.getItem("current_set") || "tinieblas_umbrias";
+if (!SETS[currentSetKey]) currentSetKey = "tinieblas_umbrias";
+
+function imgBase() {
+  const s = SETS[currentSetKey];
+  return `https://dz3we2x72f7ol.cloudfront.net/expansions/${s.slug}/es-mx/${s.prefix}_`;
+}
+function storageKey() { return "set_collection_" + currentSetKey; }
 
 let state = loadLocalState();
 let filter = "all";
 let rarityFilter = "";
 
 function loadLocalState() {
-  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  try { return JSON.parse(localStorage.getItem(storageKey())) || {}; }
   catch { return {}; }
 }
 function saveLocalState() {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  localStorage.setItem(storageKey(), JSON.stringify(state));
 }
 function saveState() {
   saveLocalState();
   if (currentUser) {
-    setDoc(doc(db, "users", currentUser.uid), { tinieblas_umbrias: state }, { merge: true })
+    setDoc(doc(db, "users", currentUser.uid), { [currentSetKey]: state }, { merge: true })
       .catch(err => console.error("Firestore save failed:", err));
   }
 }
 
+function isGeneric() { return !!SETS[currentSetKey].generic; }
+
 function variantsFor(card) {
+  if (isGeneric()) return ["only"];
   if (["common","holo"].includes(card.r)) {
     return card.r === "holo" ? ["holo","reverse"] : ["normal","reverse"];
   }
@@ -594,16 +655,24 @@ function cardOwned(card) {
   return Object.values(s).some(v => v.es || v.en);
 }
 
+function getCardsForCurrentSet() {
+  const s = SETS[currentSetKey];
+  if (s.cards) return s.cards;
+  // Generic: build numbered slots
+  return Array.from({length: s.total}, (_, i) => ({n: i+1, name: `${s.prefix.split('_')[0]}-${String(i+1).padStart(3,'0')}`, r: "common"}));
+}
+
 function render() {
+  const setCfg = SETS[currentSetKey];
+  const cards = getCardsForCurrentSet();
   const grid = document.getElementById("grid");
   grid.innerHTML = "";
   let unique = 0, esCount = 0, enCount = 0, totalSlots = 0;
 
-  CARDS.forEach(card => {
+  cards.forEach(card => {
     const owned = cardOwned(card);
     if (owned) unique++;
 
-    // Count all slots (es and en per variant)
     variantsFor(card).forEach(v => {
       const s = getSlot(card.n, v);
       if (s.es) { esCount++; totalSlots++; }
@@ -619,7 +688,7 @@ function render() {
     div.dataset.rarity = card.r;
     div.dataset.owned = owned ? "true" : "false";
 
-    const label = RARITY_LABEL[card.r];
+    const label = RARITY_LABEL[card.r] || "";
     const variantHTML = variantsFor(card).map(v => {
       const s = getSlot(card.n, v);
       const vLabel = { normal:"Normal", reverse:"Reverse", holo:"Holo", only:"—" }[v];
@@ -634,18 +703,17 @@ function render() {
     }).join("");
 
     div.innerHTML = `
-      ${label ? `<span class="rarity-tag">${label}</span>` : ""}
+      ${label && !setCfg.generic ? `<span class="rarity-tag">${label}</span>` : ""}
       <div class="img-wrap">
-        <img src="${IMG_BASE}${card.n}.png" alt="${card.name}" loading="lazy" onerror="this.style.opacity=0.1">
+        <img src="${imgBase()}${card.n}.png" alt="${card.name}" loading="lazy" onerror="this.style.opacity=0.15">
       </div>
-      <div class="num">${String(card.n).padStart(3,"0")} / 120</div>
+      <div class="num">${String(card.n).padStart(3,"0")} / ${setCfg.total}</div>
       <div class="name">${card.name}</div>
       <div class="variants">${variantHTML}</div>
     `;
     grid.appendChild(div);
   });
 
-  // Attach handlers via delegation
   grid.querySelectorAll(".lang-btn").forEach(btn => {
     btn.onclick = e => {
       e.stopPropagation();
@@ -662,7 +730,33 @@ function render() {
   document.getElementById("stat-es").textContent = esCount;
   document.getElementById("stat-en").textContent = enCount;
   document.getElementById("stat-total").textContent = totalSlots;
-  document.getElementById("progress").style.width = (unique / 120 * 100) + "%";
+  document.getElementById("progress").style.width = (unique / setCfg.total * 100) + "%";
+  document.querySelector('#stat-unique').parentElement.childNodes[1].textContent = `/${setCfg.total} cartas únicas`;
+  document.getElementById("pageTitle").textContent = setCfg.displayName;
+  document.getElementById("pageSubtitle").textContent = setCfg.subtitle;
+  // Disable rarity filter for generic sets
+  const rf = document.getElementById("rarityFilter");
+  rf.disabled = setCfg.generic;
+  rf.style.opacity = setCfg.generic ? 0.4 : 1;
+}
+
+function switchSet(newSetKey) {
+  if (!SETS[newSetKey] || newSetKey === currentSetKey) return;
+  // Unsubscribe old set snapshot
+  if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
+  currentSetKey = newSetKey;
+  localStorage.setItem("current_set", newSetKey);
+  state = loadLocalState();
+  filter = "all";
+  rarityFilter = "";
+  document.getElementById("rarityFilter").value = "";
+  document.querySelectorAll(".filter").forEach(b => b.classList.toggle("active", b.dataset.filter === "all"));
+  // Re-subscribe if signed in
+  if (currentUser) {
+    subscribeToFirestore(currentUser);
+  } else {
+    render();
+  }
 }
 
 document.querySelectorAll(".filter").forEach(btn => {
@@ -677,13 +771,15 @@ document.getElementById("rarityFilter").onchange = e => {
   rarityFilter = e.target.value;
   render();
 };
+document.getElementById("setSelector").value = currentSetKey;
+document.getElementById("setSelector").onchange = e => switchSet(e.target.value);
 
 document.getElementById("export").onclick = () => {
   const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "tinieblas_umbrias_" + new Date().toISOString().slice(0,10) + ".json";
+  a.download = currentSetKey + "_" + new Date().toISOString().slice(0,10) + ".json";
   a.click();
   URL.revokeObjectURL(url);
 };
@@ -721,6 +817,31 @@ signoutBtn.onclick = () => {
   signOut(auth);
 };
 
+function subscribeToFirestore(user) {
+  if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
+  const userDoc = doc(db, "users", user.uid);
+  let firstSnap = true;
+  unsubscribeSnapshot = onSnapshot(userDoc, snap => {
+    const remote = snap.exists() ? (snap.data()[currentSetKey] || {}) : {};
+    if (firstSnap) {
+      firstSnap = false;
+      const localHasData = Object.keys(state).length > 0;
+      const remoteHasData = Object.keys(remote).length > 0;
+      if (localHasData && !remoteHasData) {
+        if (confirm(`Tenías cartas marcadas localmente en ${SETS[currentSetKey].displayName}. ¿Subirlas a tu cuenta?`)) {
+          setDoc(userDoc, { [currentSetKey]: state }, { merge: true });
+          return;
+        }
+      }
+      state = remote;
+    } else {
+      state = remote;
+    }
+    saveLocalState();
+    render();
+  }, err => console.error("Firestore snapshot error:", err));
+}
+
 onAuthStateChanged(auth, user => {
   if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
   currentUser = user;
@@ -729,29 +850,7 @@ onAuthStateChanged(auth, user => {
     authStatusEl.style.color = "var(--accent)";
     signinBtn.style.display = "none";
     signoutBtn.style.display = "inline-block";
-
-    const userDoc = doc(db, "users", user.uid);
-    let firstSnap = true;
-    unsubscribeSnapshot = onSnapshot(userDoc, snap => {
-      const remote = snap.exists() ? (snap.data().tinieblas_umbrias || {}) : {};
-      if (firstSnap) {
-        firstSnap = false;
-        // On first login, merge local into remote if remote is empty and local isn't
-        const localHasData = Object.keys(state).length > 0;
-        const remoteHasData = Object.keys(remote).length > 0;
-        if (localHasData && !remoteHasData) {
-          if (confirm("Tenías cartas marcadas localmente. ¿Subirlas a tu cuenta?")) {
-            setDoc(userDoc, { tinieblas_umbrias: state }, { merge: true });
-            return; // keep local state, will re-render after Firestore echo
-          }
-        }
-        state = remote;
-      } else {
-        state = remote;
-      }
-      saveLocalState();
-      render();
-    }, err => console.error("Firestore snapshot error:", err));
+    subscribeToFirestore(user);
   } else {
     authStatusEl.textContent = "Sin sesión (local)";
     authStatusEl.style.color = "var(--muted)";
