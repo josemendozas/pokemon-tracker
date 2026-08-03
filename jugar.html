@@ -150,7 +150,9 @@
     gap: 10px;
     max-height: 40vh;
     overflow-y: auto;
+    transition: transform 0.4s ease;
   }
+  .guide.flip { transform: rotate(180deg); }
   .guide-header {
     display: flex;
     justify-content: space-between;
@@ -416,7 +418,7 @@
   </div>
 
   <!-- Center guide -->
-  <div class="guide">
+  <div class="guide" id="guidePanel">
     <div class="guide-header">
       <div class="turn-indicator">Turno de <span class="who" id="whoTurn">Jugador 1</span></div>
       <div class="phase-name" id="phaseName">Turno 1</div>
@@ -520,6 +522,9 @@ function render() {
   // Panels active/inactive
   document.getElementById("panelP1").classList.toggle("active", state.currentPlayer === 1);
   document.getElementById("panelP2").classList.toggle("active", state.currentPlayer === 2);
+
+  // Rotate guide panel toward current player
+  document.getElementById("guidePanel").classList.toggle("flip", state.currentPlayer === 2);
 
   // Prizes
   ["1","2"].forEach(p => {
