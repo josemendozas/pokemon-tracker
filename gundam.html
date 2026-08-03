@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gundam TCG · Phantom Aria · Tracker</title>
+<style>
+  :root {
+    --bg: #faf6ff;
+    --bg-2: #f2ebfb;
+    --panel: #ffffff;
+    --border: #e5dcf0;
+    --border-hi: #c9b6e6;
+    --text: #2d2740;
+    --muted: #8a83a0;
+    --accent: #7c5cff;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(ellipse at top, #ebe2fb 0%, var(--bg) 55%);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+  }
+  nav.topnav {
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    backdrop-filter: blur(12px);
+  }
+  nav.topnav .brand {
+    font-weight: 700;
+    color: var(--accent);
+    margin-right: 12px;
+    font-size: 14px;
+  }
+  nav.topnav a {
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  nav.topnav a:hover { color: var(--text); background: var(--bg-2); }
+  nav.topnav a.active { background: var(--accent); color: #fff; }
+
+  .container {
+    max-width: 720px;
+    margin: 80px auto;
+    padding: 0 20px;
+  }
+  h1 {
+    font-size: 26px;
+    margin: 0 0 4px;
+    background: linear-gradient(90deg, #7c5cff, #2a94e0);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .set-code { color: var(--muted); font-size: 14px; margin-bottom: 24px; }
+
+  .card-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 32px;
+    box-shadow: 0 4px 24px rgba(80, 60, 130, 0.06);
+  }
+  .info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .info-item:last-child { border-bottom: none; }
+  .info-item span:first-child { color: var(--muted); }
+  .info-item span:last-child { font-weight: 500; }
+
+  .status-box {
+    background: var(--bg-2);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-top: 24px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  .status-box strong { color: var(--accent); }
+
+  a.link { color: var(--accent); text-decoration: none; }
+  a.link:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <span class="brand">TCG Tracker</span>
+  <a href="index.html">Pokémon</a>
+  <a href="gundam.html" class="active">Gundam</a>
+</nav>
+
+<div class="container">
+  <h1>Phantom Aria</h1>
+  <div class="set-code">GD04 · Gundam Card Game · 4ta expansión</div>
+
+  <div class="card-panel">
+    <div class="info-item"><span>Set code</span><span>GD04</span></div>
+    <div class="info-item"><span>Lanzamiento</span><span>24 abril 2026</span></div>
+    <div class="info-item"><span>Cartas totales</span><span>~195</span></div>
+    <div class="info-item"><span>Editorial</span><span>Bandai</span></div>
+    <div class="info-item"><span>Series destacadas</span><span>Mobile Suit Gundam, UC, Turn A, Victory</span></div>
+
+    <div class="status-box">
+      <strong>Tracker en construcción.</strong><br>
+      Bandai no tiene un CDN público de imágenes como Pokémon, así que necesito jalar la lista y las imágenes desde <a class="link" href="https://www.gundam-gcg.com/en/products/gd04.html" target="_blank">gundam-gcg.com</a> o <a class="link" href="https://www.tcgplayer.com/search/gundam-card-game/phantom-aria" target="_blank">TCGplayer</a>.<br><br>
+      Cuando quieras que lo llene, dime y armamos la lista completa con imágenes.
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

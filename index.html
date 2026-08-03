@@ -283,14 +283,69 @@
     .stat { padding: 6px 10px; font-size: 11px; }
     .name { font-size: 11px; }
   }
+
+  nav.topnav {
+    background: rgba(255, 255, 255, 0.85);
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    backdrop-filter: blur(12px);
+  }
+  nav.topnav .brand {
+    font-weight: 700;
+    color: var(--accent);
+    margin-right: 12px;
+    font-size: 14px;
+  }
+  nav.topnav a {
+    color: var(--muted);
+    text-decoration: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  nav.topnav a:hover { color: var(--text); background: var(--bg-2); }
+  nav.topnav a.active { background: var(--accent); color: #fff; }
+  .empty-state {
+    max-width: 500px;
+    margin: 80px auto;
+    text-align: center;
+    color: var(--muted);
+    padding: 40px 20px;
+    background: var(--panel);
+    border: 1px dashed var(--border-hi);
+    border-radius: 12px;
+  }
+  .empty-state h2 { color: var(--text); font-size: 18px; margin: 0 0 8px; }
+  .empty-state p { font-size: 13px; margin: 4px 0; }
 </style>
 </head>
 <body>
 
+<nav class="topnav">
+  <span class="brand">TCG Tracker</span>
+  <a href="index.html" class="active">Pokémon</a>
+  <a href="gundam.html">Gundam</a>
+</nav>
+
 <header>
   <div class="header-inner">
-    <h1>Tinieblas Umbrías · Pitch Black</h1>
-    <div class="subtitle">Megaevolución · 120 cartas · Click en ES o EN de cada variante</div>
+    <div style="display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;">
+      <h1 id="pageTitle">Tinieblas Umbrías · Pitch Black</h1>
+      <select id="setSelector" style="font-size:13px;padding:5px 10px;">
+        <option value="tinieblas_umbrias" selected>Tinieblas Umbrías (Pitch Black)</option>
+        <option value="caos_creciente" disabled>Caos Creciente · próximamente</option>
+        <option value="equilibrio_perfecto" disabled>Equilibrio Perfecto · próximamente</option>
+        <option value="ascended_heroes" disabled>Ascended Heroes · próximamente</option>
+        <option value="llamaradas_infernales" disabled>Llamaradas Infernales · próximamente</option>
+        <option value="megaevolucion_base" disabled>Megaevolución base · próximamente</option>
+      </select>
+    </div>
+    <div class="subtitle" id="pageSubtitle">Megaevolución · 120 cartas · Click en ES o EN de cada variante</div>
 
     <div class="stats">
       <div class="stat"><span class="num" id="stat-unique">0</span>/120 cartas únicas</div>
