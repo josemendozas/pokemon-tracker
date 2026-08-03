@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Jugar Pokémon TCG · Guía</title>
+<style>
+  :root {
+    --bg: #faf6ff;
+    --panel: #ffffff;
+    --border: #e5dcf0;
+    --text: #2d2740;
+    --muted: #8a83a0;
+    --accent: #7c5cff;
+    --p1: #e94a75;
+    --p2: #2a94e0;
+    --success: #22c55e;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: var(--text); }
+  body { background: var(--bg); user-select: none; }
+
+  .app {
+    display: grid;
+    grid-template-rows: 1fr auto 1fr;
+    height: 100vh;
+  }
+  @media (orientation: portrait) {
+    .app { grid-template-rows: 1fr auto 1fr; }
+  }
+
+  .player-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    gap: 8px;
+    position: relative;
+    transition: background 0.3s;
+  }
+  .player-panel.p1 { background: linear-gradient(180deg, rgba(233,74,117,0.08), transparent); }
+  .player-panel.p2 { background: linear-gradient(0deg, rgba(42,148,224,0.08), transparent); transform: rotate(180deg); }
+  .player-panel.p2 > * { transform: rotate(0deg); }
+  .player-panel.active { box-shadow: inset 0 0 0 3px var(--accent); }
+  .player-panel.active::before {
+    content: "TU TURNO";
+    position: absolute;
+    top: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent);
+    color: #fff;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .player-panel.p2.active::before { top: auto; bottom: 8px; }
+
+  .player-name {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .p1 .player-name { color: var(--p1); }
+  .p2 .player-name { color: var(--p2); }
+
+  .hp-block {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    box-shadow: 0 4px 12px rgba(80,60,130,0.08);
+  }
+  .hp-label { font-size: 11px; color: var(--muted); text-transform: uppercase; }
+  .hp-value { font-size: 36px; font-weight: 700; min-width: 80px; text-align: center; font-variant-numeric: tabular-nums; }
+  .hp-btn {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    color: var(--text);
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+  .hp-btn:active { transform: scale(0.92); background: var(--accent); color: #fff; }
+  .hp-btn.big { width: 56px; height: 56px; font-size: 20px; }
+
+  .prize-row {
+    display: flex;
+    gap: 6px;
+    padding: 6px;
+    background: var(--panel);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+  }
+  .prize {
+    width: 22px;
+    height: 32px;
+    border-radius: 4px;
+    background: linear-gradient(135deg, #a5b4fc, #7c5cff);
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  }
+  .prize.taken { background: var(--border); box-shadow: none; }
+
+  .status-row { display: flex; gap: 6px; }
+  .status-chip {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 600;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    cursor: pointer;
+  }
+  .status-chip.on { background: var(--warning); border-color: var(--warning); color: #fff; }
+  .status-chip[data-status="quemado"].on { background: #ef4444; border-color: #ef4444; }
+  .status-chip[data-status="paralizado"].on { background: #eab308; border-color: #eab308; color: #000; }
+  .status-chip[data-status="veneno"].on { background: #a855f7; border-color: #a855f7; }
+  .status-chip[data-status="dormido"].on { background: #64748b; border-color: #64748b; }
+  .status-chip[data-status="confuso"].on { background: #ec4899; border-color: #ec4899; }
+
+  /* Center Guide Panel */
+  .guide {
+    background: var(--panel);
+    border-top: 2px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    padding: 14px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 40vh;
+    overflow-y: auto;
+  }
+  .guide-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .turn-indicator {
+    font-size: 16px;
+    font-weight: 700;
+  }
+  .turn-indicator .who { color: var(--accent); }
+  .phase-name {
+    font-size: 12px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .step-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .step {
+    display: flex;
+    align-items: start;
+    gap: 10px;
+    padding: 8px 10px;
+    background: var(--bg);
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .step.current {
+    background: rgba(124,92,255,0.1);
+    border: 1px solid var(--accent);
+    font-weight: 500;
+  }
+  .step.done { opacity: 0.5; text-decoration: line-through; }
+  .step-num {
+    background: var(--muted);
+    color: #fff;
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step.current .step-num { background: var(--accent); }
+  .step.done .step-num { background: var(--success); }
+
+  .actions {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .btn {
+    background: var(--panel);
+    border: 2px solid var(--border);
+    color: var(--text);
+    padding: 10px 16px;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.1s;
+  }
+  .btn:active { transform: scale(0.96); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn.danger { background: var(--danger); color: #fff; border-color: var(--danger); }
+  .btn.ghost { background: transparent; }
+
+  .top-bar {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    display: flex;
+    gap: 6px;
+    z-index: 10;
+  }
+  .icon-btn {
+    background: rgba(255,255,255,0.9);
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    color: var(--muted);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  /* Coin & Modal */
+  .modal-backdrop {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
+  .modal-backdrop.show { display: flex; }
+  .modal {
+    background: var(--panel);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 90vw;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+  .modal h2 { margin-bottom: 12px; font-size: 22px; }
+  .coin {
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 44px;
+    color: #fff;
+    margin: 20px auto;
+    animation: flip 0.6s ease-out;
+  }
+  @keyframes flip {
+    0% { transform: rotateY(0) scale(0.5); opacity: 0; }
+    100% { transform: rotateY(720deg) scale(1); opacity: 1; }
+  }
+  .winner-emoji { font-size: 60px; margin: 10px 0; }
+
+  /* Setup screen */
+  .setup {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 20px;
+  }
+  .setup.hide { display: none; }
+  .setup-card {
+    background: var(--panel);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 20px 60px rgba(80,60,130,0.15);
+  }
+  .setup-card h1 {
+    font-size: 24px;
+    margin-bottom: 6px;
+    background: linear-gradient(90deg, var(--p1), var(--accent), var(--p2));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .setup-card .sub { color: var(--muted); font-size: 13px; margin-bottom: 20px; }
+  .setup-form label { display: block; font-size: 12px; color: var(--muted); margin-bottom: 4px; margin-top: 12px; }
+  .setup-form input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .setup-form input:focus { outline: none; border-color: var(--accent); }
+  .toggle-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 16px;
+  }
+  .switch {
+    position: relative;
+    width: 44px;
+    height: 26px;
+    background: var(--border);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .switch.on { background: var(--accent); }
+  .switch::after {
+    content: "";
+    position: absolute;
+    top: 2px; left: 2px;
+    width: 22px; height: 22px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+  }
+  .switch.on::after { transform: translateX(18px); }
+</style>
+</head>
+<body>
+
+<!-- Setup screen -->
+<div class="setup" id="setup">
+  <div class="setup-card">
+    <h1>Comenzar Partida</h1>
+    <div class="sub">Configura la partida antes de arrancar</div>
+    <div class="setup-form">
+      <label>Nombre Jugador 1</label>
+      <input type="text" id="p1Name" value="Jugador 1" maxlength="20">
+      <label>HP inicial Pokémon activo P1</label>
+      <input type="number" id="p1HP" value="120" min="10" max="400" step="10">
+      <label>Nombre Jugador 2</label>
+      <input type="text" id="p2Name" value="Jugador 2" maxlength="20">
+      <label>HP inicial Pokémon activo P2</label>
+      <input type="number" id="p2HP" value="120" min="10" max="400" step="10">
+      <div class="toggle-row">
+        <div>
+          <div style="font-weight:600;font-size:14px;">Modo enseñanza</div>
+          <div style="color:var(--muted);font-size:11px;">Guía paso a paso cada turno</div>
+        </div>
+        <div class="switch on" id="teachToggle"></div>
+      </div>
+      <button class="btn primary" style="margin-top:20px;width:100%;padding:14px;font-size:15px;" id="startGame">Empezar partida</button>
+      <div style="text-align:center;margin-top:12px;">
+        <a href="index.html" style="color:var(--muted);font-size:12px;text-decoration:none;">← Volver al tracker</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="top-bar">
+  <a href="index.html" class="icon-btn">← Salir</a>
+  <button class="icon-btn" id="restartBtn">↻ Reiniciar</button>
+</div>
+
+<div class="app">
+  <!-- Player 2 panel (top, rotated for viewing across table) -->
+  <div class="player-panel p2" id="panelP2">
+    <div class="player-name" id="nameP2">Jugador 2</div>
+    <div class="hp-block">
+      <button class="hp-btn big" data-p="2" data-delta="-30">−30</button>
+      <button class="hp-btn" data-p="2" data-delta="-10">−10</button>
+      <div>
+        <div class="hp-label">HP</div>
+        <div class="hp-value" id="hpP2">120</div>
+      </div>
+      <button class="hp-btn" data-p="2" data-delta="10">+10</button>
+      <button class="hp-btn big" data-p="2" data-delta="30">+30</button>
+    </div>
+    <div class="prize-row" id="prizeP2">
+      <div class="prize"></div><div class="prize"></div><div class="prize"></div>
+      <div class="prize"></div><div class="prize"></div><div class="prize"></div>
+    </div>
+    <div class="status-row" id="statusP2">
+      <span class="status-chip" data-status="quemado" data-p="2">🔥 Quemado</span>
+      <span class="status-chip" data-status="paralizado" data-p="2">⚡ Paralizado</span>
+      <span class="status-chip" data-status="veneno" data-p="2">☠ Veneno</span>
+      <span class="status-chip" data-status="dormido" data-p="2">💤 Dormido</span>
+      <span class="status-chip" data-status="confuso" data-p="2">❓ Confuso</span>
+    </div>
+  </div>
+
+  <!-- Center guide -->
+  <div class="guide">
+    <div class="guide-header">
+      <div class="turn-indicator">Turno de <span class="who" id="whoTurn">Jugador 1</span></div>
+      <div class="phase-name" id="phaseName">Turno 1</div>
+    </div>
+    <div class="step-list" id="stepList"></div>
+    <div class="actions">
+      <button class="btn primary" id="nextStepBtn">Siguiente paso →</button>
+      <button class="btn" id="endTurnBtn">Terminar turno</button>
+      <button class="btn ghost" id="coinBtn">🪙 Moneda</button>
+      <button class="btn ghost" id="rulesBtn">📖 Reglas</button>
+    </div>
+  </div>
+
+  <!-- Player 1 panel (bottom) -->
+  <div class="player-panel p1 active" id="panelP1">
+    <div class="player-name" id="nameP1">Jugador 1</div>
+    <div class="hp-block">
+      <button class="hp-btn big" data-p="1" data-delta="-30">−30</button>
+      <button class="hp-btn" data-p="1" data-delta="-10">−10</button>
+      <div>
+        <div class="hp-label">HP</div>
+        <div class="hp-value" id="hpP1">120</div>
+      </div>
+      <button class="hp-btn" data-p="1" data-delta="10">+10</button>
+      <button class="hp-btn big" data-p="1" data-delta="30">+30</button>
+    </div>
+    <div class="prize-row" id="prizeP1">
+      <div class="prize"></div><div class="prize"></div><div class="prize"></div>
+      <div class="prize"></div><div class="prize"></div><div class="prize"></div>
+    </div>
+    <div class="status-row" id="statusP1">
+      <span class="status-chip" data-status="quemado" data-p="1">🔥 Quemado</span>
+      <span class="status-chip" data-status="paralizado" data-p="1">⚡ Paralizado</span>
+      <span class="status-chip" data-status="veneno" data-p="1">☠ Veneno</span>
+      <span class="status-chip" data-status="dormido" data-p="1">💤 Dormido</span>
+      <span class="status-chip" data-status="confuso" data-p="1">❓ Confuso</span>
+    </div>
+  </div>
+</div>
+
+<!-- Modals -->
+<div class="modal-backdrop" id="modal">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<script>
+const STEPS_TEACH = [
+  { name: "Roba una carta", detail: "Toma la carta de encima de tu mazo y agrégala a tu mano." },
+  { name: "Juega Pokémon básicos (opcional)", detail: "Puedes poner Pokémon básicos de tu mano en tu banca (máx 5 en banca)." },
+  { name: "Evoluciona (opcional)", detail: "Puedes evolucionar Pokémon que ya estaban desde el turno anterior. NO se puede evolucionar en el primer turno o el turno que jugaste al Pokémon." },
+  { name: "Adjunta 1 energía (opcional)", detail: "Solo puedes adjuntar UNA energía por turno, a cualquier Pokémon tuyo." },
+  { name: "Juega Objetos y Partidarios (opcional)", detail: "Objetos: los que quieras. Partidarios: SOLO UNO por turno. Estadios: solo uno por turno." },
+  { name: "Usa habilidades (opcional)", detail: "Si tus Pokémon tienen habilidades, actívalas cuando corresponda (algunas solo en tu turno)." },
+  { name: "Ataca o pasa turno", detail: "Si atacas, se aplica el daño y termina tu turno. Aplica debilidad, resistencia, y estados especiales." },
+];
+
+const STEPS_CASUAL = [
+  { name: "Roba y juega", detail: "Roba carta, juega básicos, evoluciona, adjunta energía, activa habilidades, juega entrenadores." },
+  { name: "Ataca o pasa", detail: "Ataca con tu Pokémon activo. Se aplica daño, debilidad, y estados." },
+];
+
+const RULES_TEXT = `
+<h2>Reglas rápidas Pokémon TCG</h2>
+<div style="text-align:left;font-size:13px;line-height:1.6;max-height:60vh;overflow-y:auto;">
+<p><strong>Ganar</strong>: (1) tomar tus 6 premios, (2) tu rival se queda sin Pokémon en juego, o (3) tu rival no puede robar carta al inicio de su turno.</p>
+<p><strong>Al inicio de tu turno</strong>: robas 1 carta. Si no puedes robar, pierdes.</p>
+<p><strong>Por turno solo puedes</strong>: 1 energía, 1 partidario, 1 estadio (reemplaza al anterior), 1 retirada gratis.</p>
+<p><strong>Cuando noqueas a un Pokémon</strong>: tomas 1 premio (ex/EX = 2 premios, Mega ex = 3 premios).</p>
+<p><strong>Retirar</strong>: pagas el costo de retirada en energías descartadas.</p>
+<p><strong>Debilidad</strong>: +30 daño extra (o x2 en formatos viejos). <strong>Resistencia</strong>: -30 daño.</p>
+<p><strong>Turno 1 del que empieza</strong>: NO puede atacar.</p>
+<h3 style="margin-top:12px;">Estados especiales</h3>
+<p><strong>🔥 Quemado</strong>: 20 daño al final de turno. Tira moneda: cara = se cura.</p>
+<p><strong>⚡ Paralizado</strong>: no puede atacar ni retirar. Se cura al final de su próximo turno.</p>
+<p><strong>☠ Veneno</strong>: 10 daño entre turnos.</p>
+<p><strong>💤 Dormido</strong>: no puede atacar ni retirar. Tira moneda entre turnos: cara = se despierta.</p>
+<p><strong>❓ Confuso</strong>: al atacar tira moneda: cruz = 30 daño a sí mismo y ataque falla.</p>
+</div>`;
+
+// Game state
+let state = {
+  currentPlayer: 1,
+  turnNumber: 1,
+  currentStep: 0,
+  teach: true,
+  p1: { name:"Jugador 1", hp:120, maxHP:120, prizes:6, status:{} },
+  p2: { name:"Jugador 2", hp:120, maxHP:120, prizes:6, status:{} },
+};
+
+function getSteps() { return state.teach ? STEPS_TEACH : STEPS_CASUAL; }
+
+function render() {
+  // Player info
+  document.getElementById("nameP1").textContent = state.p1.name;
+  document.getElementById("nameP2").textContent = state.p2.name;
+  document.getElementById("hpP1").textContent = state.p1.hp;
+  document.getElementById("hpP2").textContent = state.p2.hp;
+  document.getElementById("hpP1").style.color = state.p1.hp <= 0 ? "var(--danger)" : "";
+  document.getElementById("hpP2").style.color = state.p2.hp <= 0 ? "var(--danger)" : "";
+
+  // Panels active/inactive
+  document.getElementById("panelP1").classList.toggle("active", state.currentPlayer === 1);
+  document.getElementById("panelP2").classList.toggle("active", state.currentPlayer === 2);
+
+  // Prizes
+  ["1","2"].forEach(p => {
+    const row = document.getElementById("prizeP" + p);
+    const remaining = state["p"+p].prizes;
+    row.querySelectorAll(".prize").forEach((el, i) => {
+      el.classList.toggle("taken", i >= remaining);
+    });
+  });
+
+  // Status chips
+  ["1","2"].forEach(p => {
+    document.getElementById("statusP" + p).querySelectorAll(".status-chip").forEach(chip => {
+      const s = chip.dataset.status;
+      chip.classList.toggle("on", !!state["p"+p].status[s]);
+    });
+  });
+
+  // Turn indicator
+  const cur = state["p" + state.currentPlayer];
+  document.getElementById("whoTurn").textContent = cur.name;
+  document.getElementById("phaseName").textContent = "Turno " + state.turnNumber;
+
+  // Steps
+  const steps = getSteps();
+  const list = document.getElementById("stepList");
+  list.innerHTML = "";
+  steps.forEach((s, i) => {
+    const div = document.createElement("div");
+    div.className = "step" + (i === state.currentStep ? " current" : i < state.currentStep ? " done" : "");
+    div.innerHTML = `<div class="step-num">${i+1}</div><div><strong>${s.name}</strong><div style="color:var(--muted);font-size:11px;margin-top:2px;">${s.detail}</div></div>`;
+    list.appendChild(div);
+  });
+
+  // Check winner
+  if (state.p1.prizes === 0) showWinner(state.p1.name);
+  else if (state.p2.prizes === 0) showWinner(state.p2.name);
+}
+
+// HP buttons
+document.querySelectorAll(".hp-btn").forEach(btn => {
+  btn.onclick = () => {
+    const p = btn.dataset.p;
+    const delta = +btn.dataset.delta;
+    state["p"+p].hp = Math.max(0, Math.min(999, state["p"+p].hp + delta));
+    render();
+  };
+});
+
+// Prize toggle (click on prize card to take/return)
+document.querySelectorAll(".prize-row").forEach((row, idx) => {
+  const p = idx === 1 ? "1" : "2"; // First .prize-row is p2 (top), second is p1 (bottom)
+  row.querySelectorAll(".prize").forEach((prize, i) => {
+    prize.onclick = () => {
+      // Toggle: if this prize is taken, un-take; if not taken and it's the "next" one, take it
+      const currentPrizes = state["p"+p].prizes;
+      const totalPrizes = 6;
+      // Take means reducing prizes remaining
+      if (i < currentPrizes) {
+        // Prize is currently available; taking it reduces count
+        state["p"+p].prizes = i;
+      } else {
+        // Prize is already taken; put it back
+        state["p"+p].prizes = i + 1;
+      }
+      render();
+    };
+  });
+});
+// Note: player-panel.p2 is rotated 180° so prize-row query order may vary. Fix mapping.
+// After render, verify: panelP2 (top) has p2 prizes; panelP1 (bottom) has p1 prizes.
+document.getElementById("prizeP2").querySelectorAll(".prize").forEach((prize, i) => {
+  prize.onclick = () => {
+    if (i < state.p2.prizes) state.p2.prizes = i;
+    else state.p2.prizes = i + 1;
+    render();
+  };
+});
+document.getElementById("prizeP1").querySelectorAll(".prize").forEach((prize, i) => {
+  prize.onclick = () => {
+    if (i < state.p1.prizes) state.p1.prizes = i;
+    else state.p1.prizes = i + 1;
+    render();
+  };
+});
+
+// Status chip toggle
+document.querySelectorAll(".status-chip").forEach(chip => {
+  chip.onclick = () => {
+    const p = chip.dataset.p;
+    const s = chip.dataset.status;
+    state["p"+p].status[s] = !state["p"+p].status[s];
+    render();
+  };
+});
+
+// Next step / End turn
+document.getElementById("nextStepBtn").onclick = () => {
+  const steps = getSteps();
+  if (state.currentStep < steps.length - 1) {
+    state.currentStep++;
+  } else {
+    endTurn();
+  }
+  render();
+};
+document.getElementById("endTurnBtn").onclick = () => { endTurn(); render(); };
+
+function endTurn() {
+  state.currentPlayer = state.currentPlayer === 1 ? 2 : 1;
+  state.turnNumber++;
+  state.currentStep = 0;
+}
+
+// Coin
+document.getElementById("coinBtn").onclick = () => {
+  const result = Math.random() < 0.5 ? "CARA" : "CRUZ";
+  const emoji = result === "CARA" ? "👑" : "✕";
+  showModal(`
+    <h2>Moneda</h2>
+    <div class="coin">${emoji}</div>
+    <div style="font-size:28px;font-weight:700;color:var(--accent);">${result}</div>
+    <button class="btn primary" style="margin-top:16px;" onclick="closeModal()">Cerrar</button>
+  `);
+};
+
+// Rules
+document.getElementById("rulesBtn").onclick = () => {
+  showModal(RULES_TEXT + '<button class="btn primary" style="margin-top:16px;" onclick="closeModal()">Cerrar</button>');
+};
+
+// Restart
+document.getElementById("restartBtn").onclick = () => {
+  if (confirm("¿Reiniciar partida y volver a configuración?")) {
+    document.getElementById("setup").classList.remove("hide");
+  }
+};
+
+function showModal(html) {
+  document.getElementById("modalContent").innerHTML = html;
+  document.getElementById("modal").classList.add("show");
+}
+window.closeModal = () => document.getElementById("modal").classList.remove("show");
+document.getElementById("modal").onclick = e => {
+  if (e.target.id === "modal") closeModal();
+};
+
+function showWinner(name) {
+  showModal(`
+    <div class="winner-emoji">🏆</div>
+    <h2>¡${name} gana!</h2>
+    <p style="color:var(--muted);margin:10px 0;">Se tomaron todos los premios</p>
+    <button class="btn primary" onclick="closeModal()">Cerrar</button>
+    <button class="btn" style="margin-left:8px;" onclick="closeModal(); document.getElementById('setup').classList.remove('hide');">Nueva partida</button>
+  `);
+}
+
+// Setup
+document.getElementById("teachToggle").onclick = e => e.currentTarget.classList.toggle("on");
+document.getElementById("startGame").onclick = () => {
+  state.p1.name = document.getElementById("p1Name").value || "Jugador 1";
+  state.p2.name = document.getElementById("p2Name").value || "Jugador 2";
+  state.p1.maxHP = state.p1.hp = +document.getElementById("p1HP").value || 120;
+  state.p2.maxHP = state.p2.hp = +document.getElementById("p2HP").value || 120;
+  state.p1.prizes = 6; state.p2.prizes = 6;
+  state.p1.status = {}; state.p2.status = {};
+  state.teach = document.getElementById("teachToggle").classList.contains("on");
+  state.currentPlayer = 1;
+  state.turnNumber = 1;
+  state.currentStep = 0;
+  document.getElementById("setup").classList.add("hide");
+  render();
+};
+
+// Initial render
+render();
+</script>
+</body>
+</html>
