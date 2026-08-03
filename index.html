@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Colección Tinieblas Umbrías · Pitch Black</title>
+<style>
+  :root {
+    --bg: #0a0a12;
+    --bg-2: #12121c;
+    --panel: #1a1a28;
+    --panel-2: #22223a;
+    --border: #2e2e44;
+    --border-hi: #444466;
+    --text: #eaeaf5;
+    --muted: #8888a0;
+    --accent: #9b6bff;
+    --es: #ff6b8a;
+    --en: #4ac0ff;
+    --gold: #ffcc44;
+    --silver: #d0d4dc;
+    --rainbow: linear-gradient(135deg, #ff6bff, #6bffcc, #ffcc44, #ff6b8a);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(ellipse at top, #1a1035 0%, var(--bg) 60%);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    min-height: 100vh;
+    padding-bottom: 40px;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    background: rgba(10, 10, 18, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    z-index: 100;
+    padding: 16px 20px;
+  }
+  .header-inner { max-width: 1400px; margin: 0 auto; }
+  h1 {
+    margin: 0 0 4px;
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    background: linear-gradient(90deg, #ff6bcc, #9b6bff, #4ac0ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 12px;
+    margin-bottom: 14px;
+  }
+
+  .stats {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
+  }
+  .stat {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+  }
+  .stat .num { font-weight: 700; font-size: 16px; color: var(--text); }
+  .stat.es .num { color: var(--es); }
+  .stat.en .num { color: var(--en); }
+
+  .controls {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .filter {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s;
+  }
+  .filter:hover { color: var(--text); border-color: var(--border-hi); }
+  .filter.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .divider { width: 1px; height: 20px; background: var(--border); margin: 0 4px; }
+  .actions-menu {
+    margin-left: auto;
+    display: flex;
+    gap: 6px;
+  }
+  .btn-icon {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 11px;
+  }
+  .btn-icon:hover { color: var(--text); border-color: var(--border-hi); }
+
+  .grid {
+    max-width: 1400px;
+    margin: 20px auto 0;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 14px;
+  }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 10px;
+    text-align: center;
+    transition: transform 0.15s, border-color 0.15s, box-shadow 0.15s;
+    position: relative;
+    overflow: hidden;
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-hi);
+  }
+
+  .rarity-tag {
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-radius: 4px;
+    background: rgba(0,0,0,0.6);
+    color: var(--muted);
+    z-index: 2;
+  }
+  .card[data-rarity="holo"] .rarity-tag { color: var(--accent); }
+  .card[data-rarity="double"] .rarity-tag { color: var(--gold); }
+  .card[data-rarity="gold1"] .rarity-tag { color: var(--gold); }
+  .card[data-rarity="silver2"] .rarity-tag { color: var(--silver); }
+  .card[data-rarity="gold2"] .rarity-tag { color: #ff9a00; font-weight: 900; }
+  .card[data-rarity="mega"] .rarity-tag {
+    background: var(--rainbow);
+    color: #fff;
+    text-shadow: 0 0 4px rgba(0,0,0,0.6);
+  }
+
+  .card[data-owned="true"] { border-color: var(--accent); }
+  .card[data-owned="true"] { box-shadow: 0 0 0 1px var(--accent), 0 4px 20px rgba(155, 107, 255, 0.15); }
+
+  .img-wrap {
+    position: relative;
+    aspect-ratio: 2.5 / 3.5;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #000;
+    margin-bottom: 8px;
+  }
+  .img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.3s, filter 0.3s;
+  }
+  .card[data-owned="false"] .img-wrap img {
+    opacity: 0.35;
+    filter: grayscale(1);
+  }
+
+  .num {
+    color: var(--muted);
+    font-size: 10px;
+    font-family: 'SF Mono', Menlo, monospace;
+    letter-spacing: 0.5px;
+  }
+  .name {
+    font-size: 12px;
+    line-height: 1.25;
+    margin: 2px 0 8px;
+    font-weight: 500;
+    min-height: 2.5em;
+  }
+
+  .variants {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .variant-row {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: var(--bg-2);
+    border-radius: 6px;
+    padding: 4px 6px;
+  }
+  .variant-label {
+    font-size: 9px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex: 1;
+    text-align: left;
+    font-weight: 600;
+  }
+  .lang-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 7px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.1s;
+    min-width: 26px;
+  }
+  .lang-btn:hover { border-color: var(--border-hi); }
+  .lang-btn.on[data-lang="es"] {
+    background: var(--es);
+    border-color: var(--es);
+    color: #fff;
+  }
+  .lang-btn.on[data-lang="en"] {
+    background: var(--en);
+    border-color: var(--en);
+    color: #fff;
+  }
+
+  .progress-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 12px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--es), var(--accent), var(--en));
+    transition: width 0.3s;
+  }
+
+  select {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+  }
+
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 12px; }
+    h1 { font-size: 18px; }
+    .stat { padding: 6px 10px; font-size: 11px; }
+    .name { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>Tinieblas Umbrías · Pitch Black</h1>
+    <div class="subtitle">Megaevolución · 120 cartas · Click en ES o EN de cada variante</div>
+
+    <div class="stats">
+      <div class="stat"><span class="num" id="stat-unique">0</span>/120 cartas únicas</div>
+      <div class="stat es"><span class="num" id="stat-es">0</span> en español</div>
+      <div class="stat en"><span class="num" id="stat-en">0</span> en inglés</div>
+      <div class="stat"><span class="num" id="stat-total">0</span> total (contando ambas)</div>
+    </div>
+
+    <div class="controls">
+      <button class="filter active" data-filter="all">Todas</button>
+      <button class="filter" data-filter="missing">Me faltan</button>
+      <button class="filter" data-filter="owned">Las que tengo</button>
+      <div class="divider"></div>
+      <select id="rarityFilter">
+        <option value="">Toda rareza</option>
+        <option value="common">Común / Poco común (1-84)</option>
+        <option value="holo">Holo Rare</option>
+        <option value="double">Double Rare (ex)</option>
+        <option value="gold1">Gold ★ (85-95)</option>
+        <option value="silver2">Silver ★★ (96-113)</option>
+        <option value="gold2">Gold ★★ (114-119)</option>
+        <option value="mega">Mega Hyper Rare (120)</option>
+      </select>
+      <div class="actions-menu">
+        <span id="auth-status" style="font-size:11px;color:var(--muted);align-self:center;margin-right:8px;">Sin sesión (local)</span>
+        <button class="btn-icon" id="signin">Iniciar sesión</button>
+        <button class="btn-icon" id="signout" style="display:none;">Cerrar sesión</button>
+        <button class="btn-icon" id="export">↓ Exportar</button>
+        <button class="btn-icon" id="import">↑ Importar</button>
+        <button class="btn-icon" id="reset">Borrar</button>
+      </div>
+    </div>
+
+    <div class="progress-bar" style="margin-top: 12px;">
+      <div class="progress-fill" id="progress"></div>
+    </div>
+  </div>
+</header>
+
+<div class="grid" id="grid"></div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-auth.js";
+import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBhAIbx-aUIcRIAsVEOzpuWqr4veqajQnQ",
+  authDomain: "pokemon-jams.firebaseapp.com",
+  projectId: "pokemon-jams",
+  storageBucket: "pokemon-jams.firebasestorage.app",
+  messagingSenderId: "595146847366",
+  appId: "1:595146847366:web:d3391ba0fc242698804d07",
+};
+
+const fbApp = initializeApp(firebaseConfig);
+const auth = getAuth(fbApp);
+const db = getFirestore(fbApp);
+const provider = new GoogleAuthProvider();
+
+let currentUser = null;
+let unsubscribeSnapshot = null;
+
+// r = rarity, v = variants (1 or 2), label for special rarities
+// Rarezas: common/uncommon → 2 variantes (normal + reverse)
+// holo → 2 variantes (holo + reverse)
+// double (ex) / gold1 / silver2 / gold2 / mega → 1 variante
+const CARDS = [
+  {n:1,name:"Tropius",r:"common"},
+  {n:2,name:"Grubbin",r:"common"},
+  {n:3,name:"Fomantis",r:"common"},
+  {n:4,name:"Lurantis ex",r:"double"},
+  {n:5,name:"Poltchageist",r:"common"},
+  {n:6,name:"Sinistcha",r:"common"},
+  {n:7,name:"Heatran",r:"common"},
+  {n:8,name:"Mega Delphox ex",r:"double"},
+  {n:9,name:"Sizzlipede",r:"common"},
+  {n:10,name:"Centiskorch",r:"common"},
+  {n:11,name:"Charcadet",r:"common"},
+  {n:12,name:"Armarouge",r:"holo"},
+  {n:13,name:"Goldeen",r:"common"},
+  {n:14,name:"Seaking",r:"common"},
+  {n:15,name:"Wailmer",r:"common"},
+  {n:16,name:"Wailord ex",r:"double"},
+  {n:17,name:"Relicanth",r:"common"},
+  {n:18,name:"Popplio",r:"common"},
+  {n:19,name:"Brionne",r:"common"},
+  {n:20,name:"Primarina",r:"holo"},
+  {n:21,name:"Finizen",r:"common"},
+  {n:22,name:"Palafin",r:"common"},
+  {n:23,name:"Electrike",r:"common"},
+  {n:24,name:"Manectric",r:"common"},
+  {n:25,name:"Charjabug",r:"common"},
+  {n:26,name:"Vikavolt",r:"common"},
+  {n:27,name:"Mega Zeraora ex",r:"double"},
+  {n:28,name:"Miraidon",r:"common"},
+  {n:29,name:"Slowpoke",r:"common"},
+  {n:30,name:"Slowbro",r:"common"},
+  {n:31,name:"Mega Slowbro ex",r:"double"},
+  {n:32,name:"Jynx",r:"common"},
+  {n:33,name:"Shuppet",r:"common"},
+  {n:34,name:"Banette",r:"common"},
+  {n:35,name:"Spiritomb",r:"common"},
+  {n:36,name:"Litwick",r:"common"},
+  {n:37,name:"Lampent",r:"common"},
+  {n:38,name:"Mega Chandelure ex",r:"double"},
+  {n:39,name:"Dhelmise",r:"common"},
+  {n:40,name:"Marshadow",r:"common"},
+  {n:41,name:"Annihilape",r:"common"},
+  {n:42,name:"Mankey",r:"common"},
+  {n:43,name:"Primeape",r:"common"},
+  {n:44,name:"Cranidos",r:"common"},
+  {n:45,name:"Rampardos ex",r:"double"},
+  {n:46,name:"Drilbur",r:"common"},
+  {n:47,name:"Koraidon",r:"common"},
+  {n:48,name:"Mega Darkrai ex",r:"double"},
+  {n:49,name:"Vullaby",r:"common"},
+  {n:50,name:"Mandibuzz",r:"common"},
+  {n:51,name:"Inkay",r:"common"},
+  {n:52,name:"Malamar",r:"common"},
+  {n:53,name:"Nickit",r:"common"},
+  {n:54,name:"Thievul",r:"common"},
+  {n:55,name:"Morpeko ex",r:"double"},
+  {n:56,name:"Zarude",r:"common"},
+  {n:57,name:"Maschiff",r:"common"},
+  {n:58,name:"Mabosstiff",r:"common"},
+  {n:59,name:"Chi-Yu",r:"holo"},
+  {n:60,name:"Skarmory",r:"common"},
+  {n:61,name:"Shieldon",r:"common"},
+  {n:62,name:"Bastiodon",r:"holo"},
+  {n:63,name:"Bronzor",r:"common"},
+  {n:64,name:"Bronzong",r:"common"},
+  {n:65,name:"Mega Excadrill ex",r:"double"},
+  {n:66,name:"Pikipek",r:"common"},
+  {n:67,name:"Trumbeak",r:"common"},
+  {n:68,name:"Toucannon",r:"common"},
+  {n:69,name:"Código Cero (Type: Null)",r:"common"},
+  {n:70,name:"Silvally",r:"holo"},
+  {n:71,name:"Bombirdier",r:"common"},
+  {n:72,name:"Fósil Coraza Antiguo",r:"common"},
+  {n:73,name:"Fósil Cráneo Antiguo",r:"common"},
+  {n:74,name:"Backtrack Badge",r:"common"},
+  {n:75,name:"Campana Oscura",r:"common"},
+  {n:76,name:"Cantera Fósil",r:"common"},
+  {n:77,name:"Combate Final de Gladion",r:"common"},
+  {n:78,name:"Gwynn",r:"common"},
+  {n:79,name:"Jett",r:"common"},
+  {n:80,name:"Vitalidad de Misty",r:"common"},
+  {n:81,name:"Recluta del Clan Corrosión",r:"common"},
+  {n:82,name:"Tremenda Bomba",r:"common"},
+  {n:83,name:"Energía Oscuridad Umbría",r:"holo"},
+  {n:84,name:"Energía Rayo Voltaico",r:"holo"},
+  // Secretas
+  {n:85,name:"Fomantis",r:"gold1"},
+  {n:86,name:"Armarouge",r:"gold1"},
+  {n:87,name:"Goldeen",r:"gold1"},
+  {n:88,name:"Primarina",r:"gold1"},
+  {n:89,name:"Manectric",r:"gold1"},
+  {n:90,name:"Slowbro",r:"gold1"},
+  {n:91,name:"Dhelmise",r:"gold1"},
+  {n:92,name:"Thievul",r:"gold1"},
+  {n:93,name:"Bastiodon",r:"gold1"},
+  {n:94,name:"Toucannon",r:"gold1"},
+  {n:95,name:"Silvally",r:"gold1"},
+  {n:96,name:"Lurantis ex",r:"silver2"},
+  {n:97,name:"Wailord ex",r:"silver2"},
+  {n:98,name:"Mega Zeraora ex",r:"silver2"},
+  {n:99,name:"Mega Chandelure ex",r:"silver2"},
+  {n:100,name:"Rampardos ex",r:"silver2"},
+  {n:101,name:"Mega Darkrai ex",r:"silver2"},
+  {n:102,name:"Morpeko ex",r:"silver2"},
+  {n:103,name:"Mega Excadrill ex",r:"silver2"},
+  {n:104,name:"Brazalete Valiente",r:"silver2"},
+  {n:105,name:"Martillo Demoledor",r:"silver2"},
+  {n:106,name:"Campana Oscura",r:"silver2"},
+  {n:107,name:"Cambio de Energía",r:"silver2"},
+  {n:108,name:"Combate Final de Gladion",r:"silver2"},
+  {n:109,name:"Inma",r:"silver2"},
+  {n:110,name:"Defensa Férrea",r:"silver2"},
+  {n:111,name:"Vitalidad de Misty",r:"silver2"},
+  {n:112,name:"Recluta del Clan Corrosión",r:"silver2"},
+  {n:113,name:"Tremenda Bomba",r:"silver2"},
+  {n:114,name:"Mega Zeraora ex",r:"gold2"},
+  {n:115,name:"Mega Chandelure ex",r:"gold2"},
+  {n:116,name:"Mega Darkrai ex",r:"gold2"},
+  {n:117,name:"Morpeko ex",r:"gold2"},
+  {n:118,name:"Combate Final de Gladion",r:"gold2"},
+  {n:119,name:"Inma",r:"gold2"},
+  {n:120,name:"Mega Darkrai ex",r:"mega"},
+];
+
+const RARITY_LABEL = {
+  common: "",
+  holo: "HOLO",
+  double: "EX",
+  gold1: "★",
+  silver2: "★★",
+  gold2: "★★ GOLD",
+  mega: "MEGA",
+};
+
+const IMG_BASE = "https://dz3we2x72f7ol.cloudfront.net/expansions/pitch-black/es-mx/KD5B_LA_";
+const STORAGE_KEY = "tinieblas_umbrias_collection_v2";
+
+let state = loadLocalState();
+let filter = "all";
+let rarityFilter = "";
+
+function loadLocalState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }
+  catch { return {}; }
+}
+function saveLocalState() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+function saveState() {
+  saveLocalState();
+  if (currentUser) {
+    setDoc(doc(db, "users", currentUser.uid), { tinieblas_umbrias: state }, { merge: true })
+      .catch(err => console.error("Firestore save failed:", err));
+  }
+}
+
+function variantsFor(card) {
+  if (["common","holo"].includes(card.r)) {
+    return card.r === "holo" ? ["holo","reverse"] : ["normal","reverse"];
+  }
+  return ["only"];
+}
+
+function getSlot(n, variant) {
+  return (state[n] && state[n][variant]) || {es:false, en:false};
+}
+function setSlot(n, variant, lang, value) {
+  if (!state[n]) state[n] = {};
+  if (!state[n][variant]) state[n][variant] = {es:false, en:false};
+  state[n][variant][lang] = value;
+  if (!state[n][variant].es && !state[n][variant].en) delete state[n][variant];
+  if (Object.keys(state[n]).length === 0) delete state[n];
+  saveState();
+}
+
+function cardOwned(card) {
+  const s = state[card.n];
+  if (!s) return false;
+  return Object.values(s).some(v => v.es || v.en);
+}
+
+function render() {
+  const grid = document.getElementById("grid");
+  grid.innerHTML = "";
+  let unique = 0, esCount = 0, enCount = 0, totalSlots = 0;
+
+  CARDS.forEach(card => {
+    const owned = cardOwned(card);
+    if (owned) unique++;
+
+    // Count all slots (es and en per variant)
+    variantsFor(card).forEach(v => {
+      const s = getSlot(card.n, v);
+      if (s.es) { esCount++; totalSlots++; }
+      if (s.en) { enCount++; totalSlots++; }
+    });
+
+    if (filter === "missing" && owned) return;
+    if (filter === "owned" && !owned) return;
+    if (rarityFilter && card.r !== rarityFilter) return;
+
+    const div = document.createElement("div");
+    div.className = "card";
+    div.dataset.rarity = card.r;
+    div.dataset.owned = owned ? "true" : "false";
+
+    const label = RARITY_LABEL[card.r];
+    const variantHTML = variantsFor(card).map(v => {
+      const s = getSlot(card.n, v);
+      const vLabel = { normal:"Normal", reverse:"Reverse", holo:"Holo", only:"—" }[v];
+      const showLabel = v !== "only";
+      return `
+        <div class="variant-row">
+          ${showLabel ? `<span class="variant-label">${vLabel}</span>` : `<span class="variant-label"></span>`}
+          <button class="lang-btn ${s.es?'on':''}" data-lang="es" data-n="${card.n}" data-v="${v}">ES</button>
+          <button class="lang-btn ${s.en?'on':''}" data-lang="en" data-n="${card.n}" data-v="${v}">EN</button>
+        </div>
+      `;
+    }).join("");
+
+    div.innerHTML = `
+      ${label ? `<span class="rarity-tag">${label}</span>` : ""}
+      <div class="img-wrap">
+        <img src="${IMG_BASE}${card.n}.png" alt="${card.name}" loading="lazy" onerror="this.style.opacity=0.1">
+      </div>
+      <div class="num">${String(card.n).padStart(3,"0")} / 120</div>
+      <div class="name">${card.name}</div>
+      <div class="variants">${variantHTML}</div>
+    `;
+    grid.appendChild(div);
+  });
+
+  // Attach handlers via delegation
+  grid.querySelectorAll(".lang-btn").forEach(btn => {
+    btn.onclick = e => {
+      e.stopPropagation();
+      const n = +btn.dataset.n;
+      const v = btn.dataset.v;
+      const lang = btn.dataset.lang;
+      const cur = getSlot(n, v)[lang];
+      setSlot(n, v, lang, !cur);
+      render();
+    };
+  });
+
+  document.getElementById("stat-unique").textContent = unique;
+  document.getElementById("stat-es").textContent = esCount;
+  document.getElementById("stat-en").textContent = enCount;
+  document.getElementById("stat-total").textContent = totalSlots;
+  document.getElementById("progress").style.width = (unique / 120 * 100) + "%";
+}
+
+document.querySelectorAll(".filter").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".filter").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    filter = btn.dataset.filter;
+    render();
+  };
+});
+document.getElementById("rarityFilter").onchange = e => {
+  rarityFilter = e.target.value;
+  render();
+};
+
+document.getElementById("export").onclick = () => {
+  const blob = new Blob([JSON.stringify(state, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "tinieblas_umbrias_" + new Date().toISOString().slice(0,10) + ".json";
+  a.click();
+  URL.revokeObjectURL(url);
+};
+document.getElementById("import").onclick = () => {
+  const input = document.createElement("input");
+  input.type = "file";
+  input.accept = "application/json";
+  input.onchange = e => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try { state = JSON.parse(ev.target.result); saveState(); render(); }
+      catch { alert("Archivo inválido"); }
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+};
+document.getElementById("reset").onclick = () => {
+  if (confirm("¿Borrar toda la colección? No se puede deshacer.")) {
+    state = {}; saveState(); render();
+  }
+};
+
+// --- Firebase Auth wiring ---
+const authStatusEl = document.getElementById("auth-status");
+const signinBtn = document.getElementById("signin");
+const signoutBtn = document.getElementById("signout");
+
+signinBtn.onclick = () => {
+  signInWithPopup(auth, provider).catch(err => alert("Error al iniciar sesión: " + err.message));
+};
+signoutBtn.onclick = () => {
+  signOut(auth);
+};
+
+onAuthStateChanged(auth, user => {
+  if (unsubscribeSnapshot) { unsubscribeSnapshot(); unsubscribeSnapshot = null; }
+  currentUser = user;
+  if (user) {
+    authStatusEl.textContent = "☁ " + (user.displayName || user.email);
+    authStatusEl.style.color = "var(--accent)";
+    signinBtn.style.display = "none";
+    signoutBtn.style.display = "inline-block";
+
+    const userDoc = doc(db, "users", user.uid);
+    let firstSnap = true;
+    unsubscribeSnapshot = onSnapshot(userDoc, snap => {
+      const remote = snap.exists() ? (snap.data().tinieblas_umbrias || {}) : {};
+      if (firstSnap) {
+        firstSnap = false;
+        // On first login, merge local into remote if remote is empty and local isn't
+        const localHasData = Object.keys(state).length > 0;
+        const remoteHasData = Object.keys(remote).length > 0;
+        if (localHasData && !remoteHasData) {
+          if (confirm("Tenías cartas marcadas localmente. ¿Subirlas a tu cuenta?")) {
+            setDoc(userDoc, { tinieblas_umbrias: state }, { merge: true });
+            return; // keep local state, will re-render after Firestore echo
+          }
+        }
+        state = remote;
+      } else {
+        state = remote;
+      }
+      saveLocalState();
+      render();
+    }, err => console.error("Firestore snapshot error:", err));
+  } else {
+    authStatusEl.textContent = "Sin sesión (local)";
+    authStatusEl.style.color = "var(--muted)";
+    signinBtn.style.display = "inline-block";
+    signoutBtn.style.display = "none";
+    state = loadLocalState();
+    render();
+  }
+});
+
+render();
+</script>
+</body>
+</html>
