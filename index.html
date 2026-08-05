@@ -2294,7 +2294,12 @@ function saveLocalState() {
 function saveState() {
   saveLocalState();
   if (currentUser) {
-    setDoc(doc(db, "users", currentUser.uid), { [currentSetKey]: state }, { merge: true })
+    // mergeFields (NOT merge:true) so a full replace of the current set's
+    // subtree actually deletes removed keys. `merge:true` does a recursive
+    // deep-merge that only adds/updates fields — deletions never sync, so a
+    // slot the user turned off locally would resurrect on the next snapshot
+    // and appear "always on".
+    setDoc(doc(db, "users", currentUser.uid), { [currentSetKey]: state }, { mergeFields: [currentSetKey] })
       .catch(err => console.error("Firestore save failed:", err));
   }
 }
@@ -2330,7 +2335,15 @@ function bumpSlot(n, variant, lang, delta) {
 function cardOwned(card) {
   const s = state[card.n];
   if (!s) return false;
-  return Object.values(s).some(v => (v.es|0) > 0 || (v.en|0) > 0);
+  // Only count slots that match the card's current variants. Guards against
+  // orphan entries (e.g. legacy `normal`/`reverse` state for a card whose
+  // rarity was later reclassified as single-variant) lighting up the card.
+  const valid = variantsFor(card);
+  for (const v of valid) {
+    const slot = s[v];
+    if (slot && ((slot.es|0) > 0 || (slot.en|0) > 0)) return true;
+  }
+  return false;
 }
 
 function getCardsForCurrentSet() {
@@ -2541,7 +2554,7 @@ function subscribeToFirestore(user) {
       const remoteHasData = Object.keys(remote).length > 0;
       if (localHasData && !remoteHasData) {
         if (confirm(`Tenías cartas marcadas localmente en ${SETS[currentSetKey].displayName}. ¿Subirlas a tu cuenta?`)) {
-          setDoc(userDoc, { [currentSetKey]: state }, { merge: true });
+          setDoc(userDoc, { [currentSetKey]: state }, { mergeFields: [currentSetKey] });
           return;
         }
       }
