@@ -429,6 +429,21 @@
           <option value="swsh10">ASR · Astral Radiance (may 2022)</option>
           <option value="swsh9">BRS · Brilliant Stars (feb 2022)</option>
         </optgroup>
+        <optgroup label="Sword &amp; Shield 2021">
+          <option value="swsh8">FST · Fusion Strike (nov 2021)</option>
+          <option value="cel25">CEL · Celebrations (oct 2021)</option>
+          <option value="swsh7">EVS · Evolving Skies (ago 2021)</option>
+          <option value="swsh6">CRE · Chilling Reign (jun 2021)</option>
+          <option value="swsh5">BST · Battle Styles (mar 2021)</option>
+          <option value="swsh45">SHF · Shining Fates (feb 2021)</option>
+        </optgroup>
+        <optgroup label="Sword &amp; Shield 2020">
+          <option value="swsh4">VIV · Vivid Voltage (nov 2020)</option>
+          <option value="swsh35">CPA · Champion's Path (sep 2020)</option>
+          <option value="swsh3">DAA · Darkness Ablaze (ago 2020)</option>
+          <option value="swsh2">RCL · Rebel Clash (may 2020)</option>
+          <option value="swsh1">SSH · Sword &amp; Shield (feb 2020)</option>
+        </optgroup>
       </select>
     </div>
     <div class="subtitle" id="pageSubtitle">Megaevolución · 120 cartas · Click en ES o EN de cada variante</div>
@@ -579,6 +594,18 @@ const SETS = {
   pgo:       { displayName: "Pokémon GO",            acronym: "PGO", apiId: "pgo",       imageProvider: "ptcgapi", subtitle: "PGO · Pokémon GO (jul 2022)" },
   swsh10:    { displayName: "Astral Radiance",       acronym: "ASR", apiId: "swsh10",    imageProvider: "ptcgapi", subtitle: "ASR · Astral Radiance (may 2022)" },
   swsh9:     { displayName: "Brilliant Stars",       acronym: "BRS", apiId: "swsh9",     imageProvider: "ptcgapi", subtitle: "BRS · Brilliant Stars (feb 2022)" },
+  // Sword & Shield 2020-2021
+  swsh8:     { displayName: "Fusion Strike",         acronym: "FST", apiId: "swsh8",     imageProvider: "ptcgapi", subtitle: "FST · Fusion Strike (nov 2021)" },
+  cel25:     { displayName: "Celebrations",          acronym: "CEL", apiId: "cel25",     imageProvider: "ptcgapi", subtitle: "CEL · Celebrations 25th Anniversary (oct 2021)" },
+  swsh7:     { displayName: "Evolving Skies",        acronym: "EVS", apiId: "swsh7",     imageProvider: "ptcgapi", subtitle: "EVS · Evolving Skies (ago 2021)" },
+  swsh6:     { displayName: "Chilling Reign",        acronym: "CRE", apiId: "swsh6",     imageProvider: "ptcgapi", subtitle: "CRE · Chilling Reign (jun 2021)" },
+  swsh5:     { displayName: "Battle Styles",         acronym: "BST", apiId: "swsh5",     imageProvider: "ptcgapi", subtitle: "BST · Battle Styles (mar 2021)" },
+  swsh45:    { displayName: "Shining Fates",         acronym: "SHF", apiId: "swsh45",    imageProvider: "ptcgapi", subtitle: "SHF · Shining Fates (feb 2021, solo base 73)" },
+  swsh4:     { displayName: "Vivid Voltage",         acronym: "VIV", apiId: "swsh4",     imageProvider: "ptcgapi", subtitle: "VIV · Vivid Voltage (nov 2020)" },
+  swsh35:    { displayName: "Champion's Path",       acronym: "CPA", apiId: "swsh35",    imageProvider: "ptcgapi", subtitle: "CPA · Champion's Path (sep 2020)" },
+  swsh3:     { displayName: "Darkness Ablaze",       acronym: "DAA", apiId: "swsh3",     imageProvider: "ptcgapi", subtitle: "DAA · Darkness Ablaze (ago 2020)" },
+  swsh2:     { displayName: "Rebel Clash",           acronym: "RCL", apiId: "swsh2",     imageProvider: "ptcgapi", subtitle: "RCL · Rebel Clash (may 2020)" },
+  swsh1:     { displayName: "Sword & Shield",        acronym: "SSH", apiId: "swsh1",     imageProvider: "ptcgapi", subtitle: "SSH · Sword & Shield (feb 2020)" },
 };
 
 // r = rarity, v = variants (1 or 2), label for special rarities
@@ -2238,6 +2265,393 @@ const CARDS_RSV10PT5 = [
 SETS.rsv10pt5.cards = CARDS_RSV10PT5;
 SETS.rsv10pt5.total = CARDS_RSV10PT5.length;
 
+
+
+
+const CARDS_SWSH1 = [
+  {n:1,name:'Celebi V',r:'double'},{n:2,name:'Roselia',r:'common'},{n:3,name:'Roselia',r:'common'},{n:4,name:'Roserade',r:'holo'},{n:5,name:'Cottonee',r:'common'},{n:6,name:'Whimsicott',r:'holo'},
+  {n:7,name:'Maractus',r:'common'},{n:8,name:'Durant',r:'holo'},{n:9,name:'Dhelmise V',r:'double'},{n:10,name:'Grookey',r:'common'},{n:11,name:'Grookey',r:'common'},{n:12,name:'Thwackey',r:'common'},
+  {n:13,name:'Thwackey',r:'common'},{n:14,name:'Rillaboom',r:'holo'},{n:15,name:'Rillaboom',r:'holo'},{n:16,name:'Blipbug',r:'common'},{n:17,name:'Blipbug',r:'common'},{n:18,name:'Dottler',r:'common'},
+  {n:19,name:'Orbeetle',r:'holo'},{n:20,name:'Gossifleur',r:'common'},{n:21,name:'Eldegoss',r:'common'},{n:22,name:'Vulpix',r:'common'},{n:23,name:'Ninetales',r:'holo'},{n:24,name:'Torkoal V',r:'double'},
+  {n:25,name:'Victini V',r:'double'},{n:26,name:'Heatmor',r:'common'},{n:27,name:'Salandit',r:'common'},{n:28,name:'Salazzle',r:'common'},{n:29,name:'Turtonator',r:'holo'},{n:30,name:'Scorbunny',r:'common'},
+  {n:31,name:'Scorbunny',r:'common'},{n:32,name:'Raboot',r:'common'},{n:33,name:'Raboot',r:'common'},{n:34,name:'Cinderace',r:'holo'},{n:35,name:'Cinderace',r:'holo'},{n:36,name:'Cinderace',r:'holo'},
+  {n:37,name:'Sizzlipede',r:'common'},{n:38,name:'Sizzlipede',r:'common'},{n:39,name:'Centiskorch',r:'holo'},{n:40,name:'Shellder',r:'common'},{n:41,name:'Cloyster',r:'holo'},{n:42,name:'Krabby',r:'common'},
+  {n:43,name:'Krabby',r:'common'},{n:44,name:'Kingler',r:'common'},{n:45,name:'Goldeen',r:'common'},{n:46,name:'Goldeen',r:'common'},{n:47,name:'Seaking',r:'common'},{n:48,name:'Lapras',r:'holo'},
+  {n:49,name:'Lapras V',r:'double'},{n:50,name:'Lapras VMAX',r:'double'},{n:51,name:'Qwilfish',r:'common'},{n:52,name:'Mantine',r:'common'},{n:53,name:'Keldeo V',r:'double'},{n:54,name:'Sobble',r:'common'},
+  {n:55,name:'Sobble',r:'common'},{n:56,name:'Drizzile',r:'common'},{n:57,name:'Drizzile',r:'common'},{n:58,name:'Inteleon',r:'holo'},{n:59,name:'Inteleon',r:'holo'},{n:60,name:'Chewtle',r:'common'},
+  {n:61,name:'Drednaw',r:'holo'},{n:62,name:'Cramorant',r:'holo'},{n:63,name:'Snom',r:'common'},{n:64,name:'Frosmoth',r:'holo'},{n:65,name:'Pikachu',r:'common'},{n:66,name:'Raichu',r:'holo'},
+  {n:67,name:'Chinchou',r:'common'},{n:68,name:'Chinchou',r:'common'},{n:69,name:'Lanturn',r:'holo'},{n:70,name:'Joltik',r:'common'},{n:71,name:'Galvantula',r:'common'},{n:72,name:'Tapu Koko V',r:'double'},
+  {n:73,name:'Yamper',r:'common'},{n:74,name:'Yamper',r:'common'},{n:75,name:'Boltund',r:'holo'},{n:76,name:'Boltund',r:'holo'},{n:77,name:'Pincurchin',r:'common'},{n:78,name:'Morpeko',r:'holo'},
+  {n:79,name:'Morpeko V',r:'double'},{n:80,name:'Morpeko VMAX',r:'double'},{n:81,name:'Galarian Ponyta',r:'common'},{n:82,name:'Galarian Rapidash',r:'holo'},{n:83,name:'Gastly',r:'common'},{n:84,name:'Haunter',r:'common'},
+  {n:85,name:'Gengar',r:'holo'},{n:86,name:'Wobbuffet V',r:'double'},{n:87,name:'Munna',r:'common'},{n:88,name:'Musharna',r:'holo'},{n:89,name:'Sinistea',r:'common'},{n:90,name:'Polteageist',r:'holo'},
+  {n:91,name:'Indeedee V',r:'double'},{n:92,name:'Diglett',r:'common'},{n:93,name:'Dugtrio',r:'common'},{n:94,name:'Hitmonlee',r:'common'},{n:95,name:'Hitmonchan',r:'common'},{n:96,name:'Rhyhorn',r:'common'},
+  {n:97,name:'Rhyhorn',r:'common'},{n:98,name:'Rhydon',r:'common'},{n:99,name:'Rhyperior',r:'holo'},{n:100,name:'Sudowoodo',r:'common'},{n:101,name:'Baltoy',r:'common'},{n:102,name:'Baltoy',r:'common'},
+  {n:103,name:'Claydol',r:'holo'},{n:104,name:'Regirock V',r:'double'},{n:105,name:'Mudbray',r:'common'},{n:106,name:'Mudsdale',r:'holo'},{n:107,name:'Silicobra',r:'common'},{n:108,name:'Silicobra',r:'common'},
+  {n:109,name:'Sandaconda',r:'holo'},{n:110,name:'Sandaconda',r:'holo'},{n:111,name:'Clobbopus',r:'common'},{n:112,name:'Clobbopus',r:'common'},{n:113,name:'Grapploct',r:'holo'},{n:114,name:'Stonjourner',r:'holo'},
+  {n:115,name:'Stonjourner V',r:'double'},{n:116,name:'Stonjourner VMAX',r:'double'},{n:117,name:'Galarian Zigzagoon',r:'common'},{n:118,name:'Galarian Linoone',r:'common'},{n:119,name:'Galarian Obstagoon',r:'holo'},{n:120,name:'Sableye V',r:'double'},
+  {n:121,name:'Skorupi',r:'common'},{n:122,name:'Drapion',r:'holo'},{n:123,name:'Croagunk',r:'common'},{n:124,name:'Toxicroak',r:'holo'},{n:125,name:'Nickit',r:'common'},{n:126,name:'Thievul',r:'holo'},
+  {n:127,name:'Galarian Meowth',r:'common'},{n:128,name:'Galarian Perrserker',r:'holo'},{n:129,name:'Mawile',r:'common'},{n:130,name:'Ferroseed',r:'common'},{n:131,name:'Ferrothorn',r:'common'},{n:132,name:'Galarian Stunfisk',r:'common'},
+  {n:133,name:'Pawniard',r:'common'},{n:134,name:'Bisharp',r:'common'},{n:135,name:'Corviknight',r:'holo'},{n:136,name:'Cufant',r:'common'},{n:137,name:'Copperajah',r:'holo'},{n:138,name:'Zacian V',r:'double'},
+  {n:139,name:'Zamazenta V',r:'double'},{n:140,name:'Snorlax',r:'holo'},{n:141,name:'Snorlax V',r:'double'},{n:142,name:'Snorlax VMAX',r:'double'},{n:143,name:'Hoothoot',r:'common'},{n:144,name:'Noctowl',r:'holo'},
+  {n:145,name:'Minccino',r:'common'},{n:146,name:'Minccino',r:'common'},{n:147,name:'Cinccino',r:'holo'},{n:148,name:'Oranguru',r:'holo'},{n:149,name:'Drampa',r:'holo'},{n:150,name:'Rookidee',r:'common'},
+  {n:151,name:'Corvisquire',r:'common'},{n:152,name:'Wooloo',r:'common'},{n:153,name:'Wooloo',r:'common'},{n:154,name:'Dubwool',r:'common'},{n:155,name:'Cramorant V',r:'double'},{n:156,name:'Air Balloon',r:'common'},
+  {n:157,name:'Bede',r:'common'},{n:158,name:'Big Charm',r:'common'},{n:159,name:'Crushing Hammer',r:'common'},{n:160,name:'Energy Retrieval',r:'common'},{n:161,name:'Energy Search',r:'common'},{n:162,name:'Energy Switch',r:'common'},
+  {n:163,name:'Evolution Incense',r:'common'},{n:164,name:'Great Ball',r:'common'},{n:165,name:'Hop',r:'common'},{n:166,name:'Hyper Potion',r:'common'},{n:167,name:'Lucky Egg',r:'common'},{n:168,name:'Lum Berry',r:'common'},
+  {n:169,name:'Marnie',r:'holo'},{n:170,name:'Metal Saucer',r:'common'},{n:171,name:'Ordinary Rod',r:'common'},{n:172,name:'Pal Pad',r:'common'},{n:173,name:'Poké Kid',r:'common'},{n:174,name:'Pokégear 3.0',r:'common'},
+  {n:175,name:'Pokémon Catcher',r:'common'},{n:176,name:'Pokémon Center Lady',r:'common'},{n:177,name:'Potion',r:'common'},{n:178,name:'Professor\'s Research (Professor Magnolia)',r:'holo'},{n:179,name:'Quick Ball',r:'common'},{n:180,name:'Rare Candy',r:'common'},
+  {n:181,name:'Rotom Bike',r:'common'},{n:182,name:'Sitrus Berry',r:'common'},{n:183,name:'Switch',r:'common'},{n:184,name:'Team Yell Grunt',r:'common'},{n:185,name:'Vitality Band',r:'common'},{n:186,name:'Aurora Energy',r:'common'},
+  {n:187,name:'Dhelmise V',r:'gold1'},{n:188,name:'Torkoal V',r:'gold1'},{n:189,name:'Lapras V',r:'gold1'},{n:190,name:'Morpeko V',r:'gold1'},{n:191,name:'Wobbuffet V',r:'gold1'},{n:192,name:'Indeedee V',r:'gold1'},
+  {n:193,name:'Stonjourner V',r:'gold1'},{n:194,name:'Sableye V',r:'gold1'},{n:195,name:'Zacian V',r:'gold1'},{n:196,name:'Zamazenta V',r:'gold1'},{n:197,name:'Snorlax V',r:'gold1'},{n:198,name:'Cramorant V',r:'gold1'},
+  {n:199,name:'Bede',r:'gold1'},{n:200,name:'Marnie',r:'gold1'},{n:201,name:'Professor\'s Research (Professor Magnolia)',r:'gold1'},{n:202,name:'Team Yell Grunt',r:'gold1'},{n:203,name:'Lapras VMAX',r:'gold2'},{n:204,name:'Morpeko VMAX',r:'gold2'},
+  {n:205,name:'Stonjourner VMAX',r:'gold2'},{n:206,name:'Snorlax VMAX',r:'gold2'},{n:207,name:'Bede',r:'gold2'},{n:208,name:'Marnie',r:'gold2'},{n:209,name:'Professor\'s Research (Professor Magnolia)',r:'gold2'},{n:210,name:'Team Yell Grunt',r:'gold2'},
+  {n:211,name:'Zacian V',r:'gold2'},{n:212,name:'Zamazenta V',r:'gold2'},{n:213,name:'Air Balloon',r:'gold2'},{n:214,name:'Metal Saucer',r:'gold2'},{n:215,name:'Ordinary Rod',r:'gold2'},{n:216,name:'Quick Ball',r:'gold2'}
+];
+SETS.swsh1.cards = CARDS_SWSH1;
+SETS.swsh1.total = CARDS_SWSH1.length;
+
+const CARDS_SWSH2 = [
+  {n:1,name:'Caterpie',r:'common'},{n:2,name:'Metapod',r:'common'},{n:3,name:'Butterfree',r:'holo'},{n:4,name:'Scyther',r:'common'},{n:5,name:'Shuckle',r:'common'},{n:6,name:'Heracross',r:'common'},
+  {n:7,name:'Lotad',r:'common'},{n:8,name:'Lombre',r:'common'},{n:9,name:'Ludicolo',r:'holo'},{n:10,name:'Surskit',r:'common'},{n:11,name:'Masquerain',r:'common'},{n:12,name:'Snover',r:'common'},
+  {n:13,name:'Abomasnow',r:'holo'},{n:14,name:'Phantump',r:'common'},{n:15,name:'Trevenant',r:'holo'},{n:16,name:'Grubbin',r:'common'},{n:17,name:'Rillaboom V',r:'double'},{n:18,name:'Rillaboom VMAX',r:'double'},
+  {n:19,name:'Eldegoss V',r:'double'},{n:20,name:'Applin',r:'common'},{n:21,name:'Applin',r:'common'},{n:22,name:'Flapple',r:'holo'},{n:23,name:'Appletun',r:'holo'},{n:24,name:'Vulpix',r:'common'},
+  {n:25,name:'Ninetales',r:'holo'},{n:26,name:'Ninetales V',r:'double'},{n:27,name:'Growlithe',r:'common'},{n:28,name:'Arcanine',r:'holo'},{n:29,name:'Magmar',r:'common'},{n:30,name:'Magmortar',r:'holo'},
+  {n:31,name:'Litwick',r:'common'},{n:32,name:'Lampent',r:'common'},{n:33,name:'Chandelure',r:'holo'},{n:34,name:'Heatmor',r:'common'},{n:35,name:'Cinderace V',r:'double'},{n:36,name:'Cinderace VMAX',r:'double'},
+  {n:37,name:'Galarian Mr. Mime',r:'common'},{n:38,name:'Galarian Mr. Rime',r:'holo'},{n:39,name:'Magikarp',r:'common'},{n:40,name:'Gyarados',r:'holo'},{n:41,name:'Wingull',r:'common'},{n:42,name:'Pelipper',r:'common'},
+  {n:43,name:'Milotic V',r:'double'},{n:44,name:'Tympole',r:'common'},{n:45,name:'Palpitoad',r:'common'},{n:46,name:'Seismitoad',r:'holo'},{n:47,name:'Galarian Darumaka',r:'common'},{n:48,name:'Galarian Darmanitan',r:'holo'},
+  {n:49,name:'Inteleon V',r:'double'},{n:50,name:'Inteleon VMAX',r:'double'},{n:51,name:'Cramorant',r:'holo'},{n:52,name:'Arrokuda',r:'common'},{n:53,name:'Barraskewda',r:'holo'},{n:54,name:'Eiscue',r:'holo'},
+  {n:55,name:'Eiscue V',r:'double'},{n:56,name:'Voltorb',r:'common'},{n:57,name:'Electrode',r:'common'},{n:58,name:'Electabuzz',r:'common'},{n:59,name:'Electivire',r:'holo'},{n:60,name:'Shinx',r:'common'},
+  {n:61,name:'Luxio',r:'common'},{n:62,name:'Luxray',r:'holo'},{n:63,name:'Helioptile',r:'common'},{n:64,name:'Heliolisk',r:'common'},{n:65,name:'Charjabug',r:'common'},{n:66,name:'Vikavolt',r:'holo'},
+  {n:67,name:'Boltund V',r:'double'},{n:68,name:'Toxel',r:'common'},{n:69,name:'Toxtricity',r:'holo'},{n:70,name:'Toxtricity V',r:'double'},{n:71,name:'Toxtricity VMAX',r:'double'},{n:72,name:'Pincurchin V',r:'double'},
+  {n:73,name:'Morpeko',r:'common'},{n:74,name:'Clefairy',r:'common'},{n:75,name:'Clefable',r:'holo'},{n:76,name:'Natu',r:'common'},{n:77,name:'Xatu',r:'common'},{n:78,name:'Galarian Corsola',r:'common'},
+  {n:79,name:'Galarian Cursola',r:'holo'},{n:80,name:'Sigilyph',r:'holo'},{n:81,name:'Sandygast',r:'common'},{n:82,name:'Palossand',r:'common'},{n:83,name:'Hatenna',r:'common'},{n:84,name:'Hattrem',r:'common'},
+  {n:85,name:'Hatterene',r:'holo'},{n:86,name:'Milcery',r:'common'},{n:87,name:'Alcremie',r:'holo'},{n:88,name:'Indeedee',r:'common'},{n:89,name:'Dreepy',r:'common'},{n:90,name:'Drakloak',r:'common'},
+  {n:91,name:'Dragapult',r:'holo'},{n:92,name:'Dragapult V',r:'double'},{n:93,name:'Dragapult VMAX',r:'double'},{n:94,name:'Galarian Farfetch\'d',r:'common'},{n:95,name:'Galarian Sirfetch\'d',r:'holo'},{n:96,name:'Nosepass',r:'common'},
+  {n:97,name:'Meditite',r:'common'},{n:98,name:'Medicham',r:'common'},{n:99,name:'Barboach',r:'common'},{n:100,name:'Whiscash',r:'holo'},{n:101,name:'Galarian Yamask',r:'common'},{n:102,name:'Galarian Runerigus',r:'holo'},
+  {n:103,name:'Binacle',r:'common'},{n:104,name:'Barbaracle',r:'holo'},{n:105,name:'Rolycoly',r:'common'},{n:106,name:'Carkol',r:'common'},{n:107,name:'Coalossal',r:'holo'},{n:108,name:'Sandaconda V',r:'double'},
+  {n:109,name:'Falinks',r:'common'},{n:110,name:'Falinks V',r:'double'},{n:111,name:'Stonjourner',r:'holo'},{n:112,name:'Koffing',r:'common'},{n:113,name:'Galarian Weezing',r:'holo'},{n:114,name:'Stunky',r:'common'},
+  {n:115,name:'Skuntank',r:'common'},{n:116,name:'Spiritomb',r:'holo'},{n:117,name:'Trubbish',r:'common'},{n:118,name:'Garbodor',r:'holo'},{n:119,name:'Vullaby',r:'common'},{n:120,name:'Mandibuzz',r:'holo'},
+  {n:121,name:'Malamar V',r:'double'},{n:122,name:'Malamar VMAX',r:'double'},{n:123,name:'Impidimp',r:'common'},{n:124,name:'Morgrem',r:'common'},{n:125,name:'Grimmsnarl',r:'holo'},{n:126,name:'Galarian Meowth',r:'common'},
+  {n:127,name:'Galarian Perrserker',r:'holo'},{n:128,name:'Scizor',r:'holo'},{n:129,name:'Bronzor',r:'common'},{n:130,name:'Bronzong',r:'common'},{n:131,name:'Probopass',r:'holo'},{n:132,name:'Durant',r:'common'},
+  {n:133,name:'Honedge',r:'common'},{n:134,name:'Doublade',r:'common'},{n:135,name:'Aegislash',r:'holo'},{n:136,name:'Copperajah V',r:'double'},{n:137,name:'Copperajah VMAX',r:'double'},{n:138,name:'Duraludon',r:'holo'},
+  {n:139,name:'Zacian',r:'holo'},{n:140,name:'Zamazenta',r:'holo'},{n:141,name:'Snorlax',r:'holo'},{n:142,name:'Chatot',r:'common'},{n:143,name:'Pidove',r:'common'},{n:144,name:'Tranquill',r:'common'},
+  {n:145,name:'Unfezant',r:'holo'},{n:146,name:'Bunnelby',r:'common'},{n:147,name:'Diggersby',r:'holo'},{n:148,name:'Hawlucha',r:'common'},{n:149,name:'Stufful',r:'common'},{n:150,name:'Bewear',r:'common'},
+  {n:151,name:'Skwovet',r:'common'},{n:152,name:'Greedent',r:'holo'},{n:153,name:'Dubwool V',r:'double'},{n:154,name:'Boss\'s Orders',r:'holo'},{n:155,name:'Burning Scarf',r:'common'},{n:156,name:'Capacious Bucket',r:'common'},
+  {n:157,name:'Cursed Shovel',r:'common'},{n:158,name:'Dan',r:'common'},{n:159,name:'Full Heal',r:'common'},{n:160,name:'Galar Mine',r:'common'},{n:161,name:'Milo',r:'common'},{n:162,name:'Nugget',r:'common'},
+  {n:163,name:'Oleana',r:'common'},{n:164,name:'Poké Ball',r:'common'},{n:165,name:'Scoop Up Net',r:'common'},{n:166,name:'Skyla',r:'common'},{n:167,name:'Sonia',r:'common'},{n:168,name:'Tool Scrapper',r:'common'},
+  {n:169,name:'Training Court',r:'common'},{n:170,name:'Turffield Stadium',r:'common'},{n:171,name:'Capture Energy',r:'common'},{n:172,name:'Horror Psychic Energy',r:'common'},{n:173,name:'Speed Lightning Energy',r:'common'},{n:174,name:'Twin Energy',r:'common'},
+  {n:175,name:'Rillaboom V',r:'gold1'},{n:176,name:'Eldegoss V',r:'gold1'},{n:177,name:'Ninetales V',r:'gold1'},{n:178,name:'Cinderace V',r:'gold1'},{n:179,name:'Milotic V',r:'gold1'},{n:180,name:'Inteleon V',r:'gold1'},
+  {n:181,name:'Boltund V',r:'gold1'},{n:182,name:'Toxtricity V',r:'gold1'},{n:183,name:'Dragapult V',r:'gold1'},{n:184,name:'Sandaconda V',r:'gold1'},{n:185,name:'Falinks V',r:'gold1'},{n:186,name:'Malamar V',r:'gold1'},
+  {n:187,name:'Copperajah V',r:'gold1'},{n:188,name:'Dubwool V',r:'gold1'},{n:189,name:'Boss\'s Orders',r:'gold1'},{n:190,name:'Milo',r:'gold1'},{n:191,name:'Oleana',r:'gold1'},{n:192,name:'Sonia',r:'gold1'},
+  {n:193,name:'Rillaboom VMAX',r:'gold2'},{n:194,name:'Cinderace VMAX',r:'gold2'},{n:195,name:'Inteleon VMAX',r:'gold2'},{n:196,name:'Toxtricity VMAX',r:'gold2'},{n:197,name:'Dragapult VMAX',r:'gold2'},{n:198,name:'Malamar VMAX',r:'gold2'},
+  {n:199,name:'Copperajah VMAX',r:'gold2'},{n:200,name:'Boss\'s Orders',r:'gold2'},{n:201,name:'Milo',r:'gold2'},{n:202,name:'Oleana',r:'gold2'},{n:203,name:'Sonia',r:'gold2'},{n:204,name:'Frosmoth',r:'gold2'},
+  {n:205,name:'Galarian Perrserker',r:'gold2'},{n:206,name:'Big Charm',r:'gold2'},{n:207,name:'Scoop Up Net',r:'gold2'},{n:208,name:'Tool Scrapper',r:'gold2'},{n:209,name:'Twin Energy',r:'gold2'}
+];
+SETS.swsh2.cards = CARDS_SWSH2;
+SETS.swsh2.total = CARDS_SWSH2.length;
+
+const CARDS_SWSH3 = [
+  {n:1,name:'Butterfree V',r:'double'},{n:2,name:'Butterfree VMAX',r:'double'},{n:3,name:'Paras',r:'common'},{n:4,name:'Parasect',r:'common'},{n:5,name:'Carnivine',r:'common'},{n:6,name:'Pansage',r:'common'},
+  {n:7,name:'Simisage',r:'common'},{n:8,name:'Karrablast',r:'common'},{n:9,name:'Shelmet',r:'common'},{n:10,name:'Accelgor',r:'holo'},{n:11,name:'Rowlet',r:'common'},{n:12,name:'Dartrix',r:'common'},
+  {n:13,name:'Decidueye',r:'holo'},{n:14,name:'Bounsweet',r:'common'},{n:15,name:'Steenee',r:'common'},{n:16,name:'Tsareena',r:'holo'},{n:17,name:'Wimpod',r:'common'},{n:18,name:'Golisopod',r:'holo'},
+  {n:19,name:'Charizard V',r:'double'},{n:20,name:'Charizard VMAX',r:'double'},{n:21,name:'Houndoom V',r:'double'},{n:22,name:'Torchic',r:'common'},{n:23,name:'Combusken',r:'common'},{n:24,name:'Blaziken',r:'holo'},
+  {n:25,name:'Heatran',r:'holo'},{n:26,name:'Pansear',r:'common'},{n:27,name:'Simisear',r:'common'},{n:28,name:'Galarian Darmanitan',r:'holo'},{n:29,name:'Larvesta',r:'common'},{n:30,name:'Volcarona',r:'holo'},
+  {n:31,name:'Fletchinder',r:'common'},{n:32,name:'Talonflame',r:'holo'},{n:33,name:'Centiskorch V',r:'double'},{n:34,name:'Centiskorch VMAX',r:'double'},{n:35,name:'Galarian Mr. Mime',r:'common'},{n:36,name:'Galarian Mr. Rime',r:'holo'},
+  {n:37,name:'Suicune',r:'holo'},{n:38,name:'Feebas',r:'common'},{n:39,name:'Milotic',r:'holo'},{n:40,name:'Relicanth',r:'common'},{n:41,name:'Panpour',r:'common'},{n:42,name:'Simipour',r:'common'},
+  {n:43,name:'Galarian Darumaka',r:'common'},{n:44,name:'Galarian Darmanitan',r:'holo'},{n:45,name:'Vanillite',r:'common'},{n:46,name:'Vanillish',r:'common'},{n:47,name:'Vanilluxe',r:'holo'},{n:48,name:'Cubchoo',r:'common'},
+  {n:49,name:'Beartic',r:'holo'},{n:50,name:'Wishiwashi',r:'common'},{n:51,name:'Mareanie',r:'common'},{n:52,name:'Toxapex',r:'common'},{n:53,name:'Dracovish',r:'holo'},{n:54,name:'Arctovish',r:'holo'},
+  {n:55,name:'Mareep',r:'common'},{n:56,name:'Flaaffy',r:'common'},{n:57,name:'Ampharos',r:'holo'},{n:58,name:'Electrike',r:'common'},{n:59,name:'Manectric',r:'holo'},{n:60,name:'Vikavolt V',r:'double'},
+  {n:61,name:'Tapu Koko',r:'holo'},{n:62,name:'Toxel',r:'common'},{n:63,name:'Toxtricity',r:'holo'},{n:64,name:'Pincurchin',r:'holo'},{n:65,name:'Dracozolt',r:'holo'},{n:66,name:'Arctozolt',r:'holo'},
+  {n:67,name:'Jigglypuff',r:'common'},{n:68,name:'Wigglytuff',r:'holo'},{n:69,name:'Mew V',r:'double'},{n:70,name:'Snubbull',r:'common'},{n:71,name:'Granbull',r:'holo'},{n:72,name:'Lunatone',r:'common'},
+  {n:73,name:'Gothita',r:'common'},{n:74,name:'Gothorita',r:'common'},{n:75,name:'Gothitelle',r:'holo'},{n:76,name:'Golett',r:'common'},{n:77,name:'Golurk',r:'holo'},{n:78,name:'Dedenne',r:'common'},
+  {n:79,name:'Morelull',r:'common'},{n:80,name:'Shiinotic',r:'common'},{n:81,name:'Mimikyu',r:'holo'},{n:82,name:'Sinistea',r:'common'},{n:83,name:'Polteageist',r:'common'},{n:84,name:'Diglett',r:'common'},
+  {n:85,name:'Dugtrio',r:'common'},{n:86,name:'Larvitar',r:'common'},{n:87,name:'Pupitar',r:'common'},{n:88,name:'Tyranitar',r:'holo'},{n:89,name:'Trapinch',r:'common'},{n:90,name:'Vibrava',r:'common'},
+  {n:91,name:'Flygon',r:'holo'},{n:92,name:'Solrock',r:'common'},{n:93,name:'Hippopotas',r:'common'},{n:94,name:'Hippowdon',r:'holo'},{n:95,name:'Rhyperior V',r:'double'},{n:96,name:'Diggersby',r:'holo'},
+  {n:97,name:'Passimian',r:'common'},{n:98,name:'Galarian Sirfetch\'d',r:'holo'},{n:99,name:'Galarian Slowbro V',r:'double'},{n:100,name:'Grimer',r:'common'},{n:101,name:'Muk',r:'holo'},{n:102,name:'Spinarak',r:'common'},
+  {n:103,name:'Ariados',r:'common'},{n:104,name:'Crobat V',r:'double'},{n:105,name:'Darkrai',r:'holo'},{n:106,name:'Purrloin',r:'common'},{n:107,name:'Liepard',r:'holo'},{n:108,name:'Deino',r:'common'},
+  {n:109,name:'Zweilous',r:'common'},{n:110,name:'Hydreigon',r:'holo'},{n:111,name:'Hoopa',r:'holo'},{n:112,name:'Nickit',r:'common'},{n:113,name:'Thievul',r:'holo'},{n:114,name:'Grimmsnarl V',r:'double'},
+  {n:115,name:'Grimmsnarl VMAX',r:'double'},{n:116,name:'Eternatus V',r:'double'},{n:117,name:'Eternatus VMAX',r:'double'},{n:118,name:'Scizor V',r:'double'},{n:119,name:'Scizor VMAX',r:'double'},{n:120,name:'Skarmory',r:'common'},
+  {n:121,name:'Aron',r:'common'},{n:122,name:'Lairon',r:'common'},{n:123,name:'Aggron',r:'holo'},{n:124,name:'Escavalier',r:'holo'},{n:125,name:'Klink',r:'common'},{n:126,name:'Klang',r:'common'},
+  {n:127,name:'Klinklang',r:'holo'},{n:128,name:'Galarian Stunfisk V',r:'double'},{n:129,name:'Meltan',r:'common'},{n:130,name:'Melmetal',r:'holo'},{n:131,name:'Cufant',r:'common'},{n:132,name:'Copperajah',r:'holo'},
+  {n:133,name:'Kangaskhan',r:'holo'},{n:134,name:'Tauros',r:'common'},{n:135,name:'Sentret',r:'common'},{n:136,name:'Furret',r:'common'},{n:137,name:'Dunsparce',r:'common'},{n:138,name:'Teddiursa',r:'common'},
+  {n:139,name:'Ursaring',r:'common'},{n:140,name:'Lugia',r:'holo'},{n:141,name:'Skitty',r:'common'},{n:142,name:'Delcatty',r:'holo'},{n:143,name:'Salamence V',r:'double'},{n:144,name:'Salamence VMAX',r:'double'},
+  {n:145,name:'Starly',r:'common'},{n:146,name:'Staravia',r:'common'},{n:147,name:'Staraptor',r:'holo'},{n:148,name:'Ducklett',r:'common'},{n:149,name:'Swanna',r:'holo'},{n:150,name:'Bunnelby',r:'common'},
+  {n:151,name:'Fletchling',r:'common'},{n:152,name:'Skwovet',r:'common'},{n:153,name:'Greedent',r:'holo'},{n:154,name:'Rookidee',r:'common'},{n:155,name:'Corvisquire',r:'common'},{n:156,name:'Corviknight',r:'holo'},
+  {n:157,name:'Big Parasol',r:'common'},{n:158,name:'Billowing Smoke',r:'common'},{n:159,name:'Bird Keeper',r:'common'},{n:160,name:'Cape of Toughness',r:'common'},{n:161,name:'Familiar Bell',r:'common'},{n:162,name:'Glimwood Tangle',r:'common'},
+  {n:163,name:'Kabu',r:'common'},{n:164,name:'Old PC',r:'common'},{n:165,name:'Piers',r:'common'},{n:166,name:'Pokémon Breeder\'s Nurturing',r:'common'},{n:167,name:'Rare Fossil',r:'common'},{n:168,name:'Rose',r:'common'},
+  {n:169,name:'Rose Tower',r:'common'},{n:170,name:'Spikemuth',r:'common'},{n:171,name:'Struggle Gloves',r:'common'},{n:172,name:'Turbo Patch',r:'common'},{n:173,name:'Yell Horn',r:'common'},{n:174,name:'Heat Fire Energy',r:'common'},
+  {n:175,name:'Hiding Darkness Energy',r:'common'},{n:176,name:'Powerful Colorless Energy',r:'common'},{n:177,name:'Butterfree V',r:'gold1'},{n:178,name:'Houndoom V',r:'gold1'},{n:179,name:'Centiskorch V',r:'gold1'},{n:180,name:'Vikavolt V',r:'gold1'},
+  {n:181,name:'Rhyperior V',r:'gold1'},{n:182,name:'Crobat V',r:'gold1'},{n:183,name:'Scizor V',r:'gold1'},{n:184,name:'Galarian Stunfisk V',r:'gold1'},{n:185,name:'Salamence V',r:'gold1'},{n:186,name:'Kabu',r:'gold1'},
+  {n:187,name:'Piers',r:'gold1'},{n:188,name:'Pokémon Breeder\'s Nurturing',r:'gold1'},{n:189,name:'Rose',r:'gold1'},{n:190,name:'Butterfree VMAX',r:'gold2'},{n:191,name:'Centiskorch VMAX',r:'gold2'},{n:192,name:'Eternatus VMAX',r:'gold2'},
+  {n:193,name:'Scizor VMAX',r:'gold2'},{n:194,name:'Salamence VMAX',r:'gold2'},{n:195,name:'Pokémon Breeder\'s Nurturing',r:'gold2'},{n:196,name:'Rose',r:'gold2'},{n:197,name:'Rillaboom',r:'gold2'},{n:198,name:'Coalossal',r:'gold2'},
+  {n:199,name:'Big Parasol',r:'gold2'},{n:200,name:'Turbo Patch',r:'gold2'},{n:201,name:'Capture Energy',r:'gold2'}
+];
+SETS.swsh3.cards = CARDS_SWSH3;
+SETS.swsh3.total = CARDS_SWSH3.length;
+
+const CARDS_SWSH35 = [
+  {n:1,name:'Venusaur V',r:'double'},{n:2,name:'Weedle',r:'common'},{n:3,name:'Kakuna',r:'common'},{n:4,name:'Beedrill',r:'common'},{n:5,name:'Eldegoss V',r:'double'},{n:6,name:'Vulpix',r:'common'},
+  {n:7,name:'Victini',r:'common'},{n:8,name:'Incineroar V',r:'double'},{n:9,name:'Sizzlipede',r:'common'},{n:10,name:'Centiskorch',r:'holo'},{n:11,name:'Carvanha',r:'common'},{n:12,name:'Sharpedo',r:'common'},
+  {n:13,name:'Wailord V',r:'double'},{n:14,name:'Drednaw V',r:'double'},{n:15,name:'Drednaw VMAX',r:'double'},{n:16,name:'Gardevoir V',r:'double'},{n:17,name:'Gardevoir VMAX',r:'double'},{n:18,name:'Hatenna',r:'common'},
+  {n:19,name:'Hattrem',r:'common'},{n:20,name:'Hatterene',r:'holo'},{n:21,name:'Galarian Cursola V',r:'double'},{n:22,name:'Alcremie V',r:'double'},{n:23,name:'Alcremie VMAX',r:'double'},{n:24,name:'Machop',r:'common'},
+  {n:25,name:'Machoke',r:'common'},{n:26,name:'Machamp',r:'holo'},{n:27,name:'Lucario V',r:'double'},{n:28,name:'Zygarde',r:'holo'},{n:29,name:'Rockruff',r:'common'},{n:30,name:'Lycanroc',r:'holo'},
+  {n:31,name:'Rolycoly',r:'common'},{n:32,name:'Grapploct V',r:'double'},{n:33,name:'Ekans',r:'common'},{n:34,name:'Arbok',r:'common'},{n:35,name:'Galarian Zigzagoon',r:'common'},{n:36,name:'Galarian Linoone',r:'common'},
+  {n:37,name:'Galarian Obstagoon',r:'holo'},{n:38,name:'Absol',r:'common'},{n:39,name:'Purrloin',r:'common'},{n:40,name:'Liepard',r:'common'},{n:41,name:'Scraggy',r:'common'},{n:42,name:'Scrafty',r:'holo'},
+  {n:43,name:'Trubbish',r:'common'},{n:44,name:'Inkay',r:'common'},{n:45,name:'Malamar',r:'common'},{n:46,name:'Nickit',r:'common'},{n:47,name:'Duraludon V',r:'double'},{n:48,name:'Swablu',r:'common'},
+  {n:49,name:'Altaria',r:'holo'},{n:50,name:'Bede',r:'common'},{n:51,name:'Full Heal',r:'common'},{n:52,name:'Great Ball',r:'common'},{n:53,name:'Hop',r:'common'},{n:54,name:'Hyper Potion',r:'common'},
+  {n:55,name:'Kabu',r:'common'},{n:56,name:'Marnie',r:'holo'},{n:57,name:'Milo',r:'common'},{n:58,name:'Piers',r:'common'},{n:59,name:'Poké Ball',r:'common'},{n:60,name:'Pokémon Center Lady',r:'common'},
+  {n:61,name:'Potion',r:'common'},{n:62,name:'Professor\'s Research (Professor Magnolia)',r:'holo'},{n:63,name:'Rotom Bike',r:'common'},{n:64,name:'Rotom Phone',r:'common'},{n:65,name:'Sonia',r:'common'},{n:66,name:'Suspicious Food Tin',r:'common'},
+  {n:67,name:'Team Yell Grunt',r:'common'},{n:68,name:'Turffield Stadium',r:'common'},{n:69,name:'Drednaw V',r:'gold1'},{n:70,name:'Gardevoir V',r:'gold1'},{n:71,name:'Galarian Cursola V',r:'gold1'},{n:72,name:'Grapploct V',r:'gold1'},
+  {n:73,name:'Hop',r:'gold1'},{n:74,name:'Charizard VMAX',r:'gold2'},{n:75,name:'Drednaw VMAX',r:'gold2'},{n:76,name:'Gardevoir VMAX',r:'gold2'},{n:77,name:'Kabu',r:'gold2'},{n:78,name:'Piers',r:'gold2'},
+  {n:79,name:'Charizard V',r:'gold2'},{n:80,name:'Suspicious Food Tin',r:'gold2'}
+];
+SETS.swsh35.cards = CARDS_SWSH35;
+SETS.swsh35.total = CARDS_SWSH35.length;
+
+const CARDS_SWSH4 = [
+  {n:1,name:'Weedle',r:'common'},{n:2,name:'Kakuna',r:'common'},{n:3,name:'Beedrill',r:'holo'},{n:4,name:'Exeggcute',r:'common'},{n:5,name:'Exeggutor',r:'holo'},{n:6,name:'Yanma',r:'common'},
+  {n:7,name:'Yanmega',r:'holo'},{n:8,name:'Pineco',r:'common'},{n:9,name:'Celebi',r:'holo'},{n:10,name:'Seedot',r:'common'},{n:11,name:'Nuzleaf',r:'common'},{n:12,name:'Shiftry',r:'holo'},
+  {n:13,name:'Nincada',r:'common'},{n:14,name:'Ninjask',r:'holo'},{n:15,name:'Shaymin',r:'holo'},{n:16,name:'Genesect',r:'holo'},{n:17,name:'Skiddo',r:'common'},{n:18,name:'Gogoat',r:'common'},
+  {n:19,name:'Dhelmise',r:'common'},{n:20,name:'Orbeetle V',r:'double'},{n:21,name:'Orbeetle VMAX',r:'double'},{n:22,name:'Zarude V',r:'double'},{n:23,name:'Charmander',r:'common'},{n:24,name:'Charmeleon',r:'common'},
+  {n:25,name:'Charizard',r:'holo'},{n:26,name:'Flareon',r:'holo'},{n:27,name:'Slugma',r:'common'},{n:28,name:'Magcargo',r:'common'},{n:29,name:'Talonflame V',r:'double'},{n:30,name:'Vaporeon',r:'holo'},
+  {n:31,name:'Wailmer',r:'common'},{n:32,name:'Wailord',r:'holo'},{n:33,name:'Oshawott',r:'common'},{n:34,name:'Dewott',r:'common'},{n:35,name:'Samurott',r:'holo'},{n:36,name:'Galarian Darmanitan V',r:'double'},
+  {n:37,name:'Galarian Darmanitan VMAX',r:'double'},{n:38,name:'Chewtle',r:'common'},{n:39,name:'Drednaw',r:'holo'},{n:40,name:'Cramorant',r:'common'},{n:41,name:'Arrokuda',r:'common'},{n:42,name:'Barraskewda',r:'holo'},
+  {n:43,name:'Pikachu V',r:'double'},{n:44,name:'Pikachu VMAX',r:'double'},{n:45,name:'Voltorb',r:'common'},{n:46,name:'Electrode',r:'holo'},{n:47,name:'Jolteon',r:'holo'},{n:48,name:'Zapdos',r:'holo'},
+  {n:49,name:'Ampharos V',r:'double'},{n:50,name:'Raikou',r:'holo'},{n:51,name:'Electrike',r:'common'},{n:52,name:'Manectric',r:'holo'},{n:53,name:'Blitzle',r:'common'},{n:54,name:'Zebstrika',r:'common'},
+  {n:55,name:'Joltik',r:'common'},{n:56,name:'Galvantula',r:'common'},{n:57,name:'Tynamo',r:'common'},{n:58,name:'Eelektrik',r:'common'},{n:59,name:'Eelektross',r:'holo'},{n:60,name:'Zekrom',r:'holo'},
+  {n:61,name:'Zeraora',r:'holo'},{n:62,name:'Pincurchin',r:'common'},{n:63,name:'Clefairy',r:'common'},{n:64,name:'Clefable',r:'holo'},{n:65,name:'Girafarig',r:'common'},{n:66,name:'Shedinja',r:'holo'},
+  {n:67,name:'Shuppet',r:'common'},{n:68,name:'Banette',r:'holo'},{n:69,name:'Duskull',r:'common'},{n:70,name:'Dusclops',r:'common'},{n:71,name:'Dusknoir',r:'holo'},{n:72,name:'Chimecho',r:'common'},
+  {n:73,name:'Woobat',r:'common'},{n:74,name:'Swoobat',r:'common'},{n:75,name:'Cottonee',r:'common'},{n:76,name:'Whimsicott',r:'holo'},{n:77,name:'Dedenne',r:'common'},{n:78,name:'Xerneas',r:'holo'},
+  {n:79,name:'Diancie',r:'holo'},{n:80,name:'Milcery',r:'common'},{n:81,name:'Alcremie',r:'holo'},{n:82,name:'Zacian',r:'holo'},{n:83,name:'Wooper',r:'common'},{n:84,name:'Quagsire',r:'holo'},
+  {n:85,name:'Shuckle',r:'common'},{n:86,name:'Phanpy',r:'common'},{n:87,name:'Donphan',r:'holo'},{n:88,name:'Hitmontop',r:'common'},{n:89,name:'Regirock',r:'holo'},{n:90,name:'Riolu',r:'common'},
+  {n:91,name:'Drilbur',r:'common'},{n:92,name:'Terrakion',r:'holo'},{n:93,name:'Zygarde',r:'holo'},{n:94,name:'Rockruff',r:'common'},{n:95,name:'Lycanroc',r:'holo'},{n:96,name:'Mudbray',r:'common'},
+  {n:97,name:'Mudsdale',r:'holo'},{n:98,name:'Coalossal V',r:'double'},{n:99,name:'Coalossal VMAX',r:'double'},{n:100,name:'Clobbopus',r:'common'},{n:101,name:'Grapploct',r:'holo'},{n:102,name:'Zamazenta',r:'holo'},
+  {n:103,name:'Poochyena',r:'common'},{n:104,name:'Mightyena',r:'common'},{n:105,name:'Sableye',r:'common'},{n:106,name:'Drapion V',r:'double'},{n:107,name:'Sandile',r:'common'},{n:108,name:'Krokorok',r:'common'},
+  {n:109,name:'Krookodile',r:'holo'},{n:110,name:'Trubbish',r:'common'},{n:111,name:'Garbodor',r:'holo'},{n:112,name:'Galarian Meowth',r:'common'},{n:113,name:'Galarian Perrserker',r:'holo'},{n:114,name:'Forretress',r:'holo'},
+  {n:115,name:'Steelix V',r:'double'},{n:116,name:'Beldum',r:'common'},{n:117,name:'Metang',r:'common'},{n:118,name:'Metagross',r:'holo'},{n:119,name:'Jirachi',r:'holo'},{n:120,name:'Lucario',r:'holo'},
+  {n:121,name:'Dialga',r:'holo'},{n:122,name:'Excadrill',r:'common'},{n:123,name:'Ferroseed',r:'common'},{n:124,name:'Ferrothorn',r:'common'},{n:125,name:'Galarian Stunfisk',r:'common'},{n:126,name:'Aegislash V',r:'double'},
+  {n:127,name:'Aegislash VMAX',r:'double'},{n:128,name:'Magearna',r:'holo'},{n:129,name:'Duraludon',r:'holo'},{n:130,name:'Eevee',r:'common'},{n:131,name:'Snorlax',r:'holo'},{n:132,name:'Lugia',r:'holo'},
+  {n:133,name:'Taillow',r:'common'},{n:134,name:'Swellow',r:'common'},{n:135,name:'Whismur',r:'common'},{n:136,name:'Loudred',r:'common'},{n:137,name:'Exploud',r:'holo'},{n:138,name:'Rayquaza',r:'holo'},
+  {n:139,name:'Chatot',r:'common'},{n:140,name:'Togekiss V',r:'double'},{n:141,name:'Togekiss VMAX',r:'double'},{n:142,name:'Tornadus',r:'holo'},{n:143,name:'Pikipek',r:'common'},{n:144,name:'Trumbeak',r:'common'},
+  {n:145,name:'Toucannon',r:'holo'},{n:146,name:'Allister',r:'common'},{n:147,name:'Bea',r:'common'},{n:148,name:'Beauty',r:'common'},{n:149,name:'Cara Liss',r:'common'},{n:150,name:'Circhester Bath',r:'common'},
+  {n:151,name:'Drone Rotom',r:'common'},{n:152,name:'Hero\'s Medal',r:'common'},{n:153,name:'League Staff',r:'common'},{n:154,name:'Leon',r:'holo'},{n:155,name:'Memory Capsule',r:'common'},{n:156,name:'Moomoo Cheese',r:'common'},
+  {n:157,name:'Nessa',r:'common'},{n:158,name:'Opal',r:'common'},{n:159,name:'Rocky Helmet',r:'common'},{n:160,name:'Telescopic Sight',r:'common'},{n:161,name:'Wyndon Stadium',r:'common'},{n:162,name:'Aromatic Grass Energy',r:'common'},
+  {n:163,name:'Coating Metal Energy',r:'common'},{n:164,name:'Stone Fighting Energy',r:'common'},{n:165,name:'Wash Water Energy',r:'common'},{n:166,name:'Orbeetle V',r:'gold1'},{n:167,name:'Zarude V',r:'gold1'},{n:168,name:'Talonflame V',r:'gold1'},
+  {n:169,name:'Galarian Darmanitan V',r:'gold1'},{n:170,name:'Pikachu V',r:'gold1'},{n:171,name:'Ampharos V',r:'gold1'},{n:172,name:'Alakazam V',r:'gold1'},{n:173,name:'Coalossal V',r:'gold1'},{n:174,name:'Galarian Sirfetch\'d V',r:'gold1'},
+  {n:175,name:'Drapion V',r:'gold1'},{n:176,name:'Steelix V',r:'gold1'},{n:177,name:'Aegislash V',r:'gold1'},{n:178,name:'Togekiss V',r:'gold1'},{n:179,name:'Allister',r:'gold1'},{n:180,name:'Bea',r:'gold1'},
+  {n:181,name:'Beauty',r:'gold1'},{n:182,name:'Leon',r:'gold1'},{n:183,name:'Nessa',r:'gold1'},{n:184,name:'Opal',r:'gold1'},{n:185,name:'Pokémon Center Lady',r:'gold1'},{n:186,name:'Orbeetle VMAX',r:'gold2'},
+  {n:187,name:'Galarian Darmanitan VMAX',r:'gold2'},{n:188,name:'Pikachu VMAX',r:'gold2'},{n:189,name:'Coalossal VMAX',r:'gold2'},{n:190,name:'Aegislash VMAX',r:'gold2'},{n:191,name:'Togekiss VMAX',r:'gold2'},{n:192,name:'Allister',r:'gold2'},
+  {n:193,name:'Bea',r:'gold2'},{n:194,name:'Beauty',r:'gold2'},{n:195,name:'Leon',r:'gold2'},{n:196,name:'Nessa',r:'gold2'},{n:197,name:'Opal',r:'gold2'},{n:198,name:'Galarian Obstagoon',r:'gold2'},
+  {n:199,name:'Oranguru',r:'gold2'},{n:200,name:'Cape of Toughness',r:'gold2'},{n:201,name:'Hero\'s Medal',r:'gold2'},{n:202,name:'Memory Capsule',r:'gold2'},{n:203,name:'Telescopic Sight',r:'gold2'}
+];
+SETS.swsh4.cards = CARDS_SWSH4;
+SETS.swsh4.total = CARDS_SWSH4.length;
+
+const CARDS_SWSH45 = [
+  {n:1,name:'Yanma',r:'common'},{n:2,name:'Yanmega',r:'holo'},{n:3,name:'Celebi',r:'holo'},{n:4,name:'Cacnea',r:'common'},{n:5,name:'Tropius',r:'common'},{n:6,name:'Rowlet',r:'common'},
+  {n:7,name:'Dartrix',r:'common'},{n:8,name:'Decidueye',r:'holo'},{n:9,name:'Dhelmise V',r:'double'},{n:10,name:'Dhelmise VMAX',r:'double'},{n:11,name:'Grookey',r:'common'},{n:12,name:'Thwackey',r:'common'},
+  {n:13,name:'Rillaboom',r:'holo'},{n:14,name:'Gossifleur',r:'common'},{n:15,name:'Eldegoss',r:'common'},{n:16,name:'Zarude',r:'holo'},{n:17,name:'Reshiram',r:'holo'},{n:18,name:'Cinderace V',r:'double'},
+  {n:19,name:'Cinderace VMAX',r:'double'},{n:20,name:'Horsea',r:'common'},{n:21,name:'Kyogre',r:'holo'},{n:22,name:'Buizel',r:'common'},{n:23,name:'Floatzel',r:'common'},{n:24,name:'Manaphy',r:'holo'},
+  {n:25,name:'Volcanion',r:'holo'},{n:26,name:'Chewtle',r:'common'},{n:27,name:'Drednaw',r:'holo'},{n:28,name:'Cramorant',r:'common'},{n:29,name:'Snom',r:'common'},{n:30,name:'Frosmoth',r:'holo'},
+  {n:31,name:'Shinx',r:'common'},{n:32,name:'Luxio',r:'common'},{n:33,name:'Luxray',r:'holo'},{n:34,name:'Rotom',r:'common'},{n:35,name:'Morpeko',r:'common'},{n:36,name:'Morpeko',r:'common'},
+  {n:37,name:'Morpeko V',r:'double'},{n:38,name:'Morpeko VMAX',r:'double'},{n:39,name:'Indeedee V',r:'double'},{n:40,name:'Trapinch',r:'common'},{n:41,name:'Koffing',r:'common'},{n:42,name:'Galarian Weezing',r:'holo'},
+  {n:43,name:'Spinarak',r:'common'},{n:44,name:'Crobat V',r:'double'},{n:45,name:'Crobat VMAX',r:'double'},{n:46,name:'Yveltal',r:'holo'},{n:47,name:'Nickit',r:'common'},{n:48,name:'Thievul',r:'holo'},
+  {n:49,name:'Cufant',r:'common'},{n:50,name:'Ditto V',r:'double'},{n:51,name:'Ditto VMAX',r:'double'},{n:52,name:'Eevee',r:'common'},{n:53,name:'Greedent V',r:'double'},{n:54,name:'Cramorant V',r:'double'},
+  {n:55,name:'Cramorant VMAX',r:'double'},{n:56,name:'Indeedee',r:'holo'},{n:57,name:'Ball Guy',r:'common'},{n:58,name:'Boss\'s Orders',r:'holo'},{n:59,name:'Gym Trainer',r:'common'},{n:60,name:'Professor\'s Research',r:'holo'},
+  {n:61,name:'Rusted Shield',r:'common'},{n:62,name:'Rusted Sword',r:'common'},{n:63,name:'Team Yell Towel',r:'common'},{n:64,name:'Alcremie V',r:'gold1'},{n:65,name:'Ball Guy',r:'gold1'},{n:66,name:'Bird Keeper',r:'gold1'},
+  {n:67,name:'Cara Liss',r:'gold1'},{n:68,name:'Gym Trainer',r:'gold1'},{n:69,name:'Piers',r:'gold1'},{n:70,name:'Poké Kid',r:'gold1'},{n:71,name:'Rose',r:'gold1'},{n:72,name:'Skyla',r:'gold1'},
+  {n:73,name:'Alcremie VMAX',r:'gold2'}
+];
+SETS.swsh45.cards = CARDS_SWSH45;
+SETS.swsh45.total = CARDS_SWSH45.length;
+
+const CARDS_SWSH5 = [
+  {n:1,name:'Bellsprout',r:'common'},{n:2,name:'Weepinbell',r:'common'},{n:3,name:'Victreebel',r:'holo'},{n:4,name:'Cacnea',r:'common'},{n:5,name:'Cacturne',r:'common'},{n:6,name:'Kricketune V',r:'double'},
+  {n:7,name:'Cherubi',r:'common'},{n:8,name:'Cherrim',r:'holo'},{n:9,name:'Carnivine',r:'common'},{n:10,name:'Durant',r:'common'},{n:11,name:'Scatterbug',r:'common'},{n:12,name:'Spewpa',r:'common'},
+  {n:13,name:'Vivillon',r:'holo'},{n:14,name:'Fomantis',r:'common'},{n:15,name:'Lurantis',r:'holo'},{n:16,name:'Tapu Bulu',r:'holo'},{n:17,name:'Blipbug',r:'common'},{n:18,name:'Flapple V',r:'double'},
+  {n:19,name:'Flapple VMAX',r:'double'},{n:20,name:'Entei',r:'holo'},{n:21,name:'Victini V',r:'double'},{n:22,name:'Victini VMAX',r:'double'},{n:23,name:'Tepig',r:'common'},{n:24,name:'Pignite',r:'common'},
+  {n:25,name:'Emboar',r:'holo'},{n:26,name:'Heatmor',r:'common'},{n:27,name:'Salandit',r:'common'},{n:28,name:'Salazzle',r:'holo'},{n:29,name:'Sizzlipede',r:'common'},{n:30,name:'Centiskorch',r:'holo'},
+  {n:31,name:'Horsea',r:'common'},{n:32,name:'Seadra',r:'common'},{n:33,name:'Kingdra',r:'holo'},{n:34,name:'Galarian Mr. Mime',r:'common'},{n:35,name:'Galarian Mr. Rime',r:'holo'},{n:36,name:'Remoraid',r:'common'},
+  {n:37,name:'Octillery',r:'holo'},{n:38,name:'Corphish',r:'common'},{n:39,name:'Crawdaunt',r:'common'},{n:40,name:'Empoleon V',r:'double'},{n:41,name:'Frillish',r:'common'},{n:42,name:'Jellicent',r:'holo'},
+  {n:43,name:'Bruxish',r:'common'},{n:44,name:'Electabuzz',r:'common'},{n:45,name:'Electivire',r:'holo'},{n:46,name:'Shinx',r:'common'},{n:47,name:'Luxio',r:'common'},{n:48,name:'Luxray',r:'holo'},
+  {n:49,name:'Pachirisu',r:'common'},{n:50,name:'Tapu Koko V',r:'double'},{n:51,name:'Tapu Koko VMAX',r:'double'},{n:52,name:'Yamper',r:'common'},{n:53,name:'Boltund',r:'holo'},{n:54,name:'Galarian Slowpoke',r:'common'},
+  {n:55,name:'Spoink',r:'common'},{n:56,name:'Grumpig',r:'common'},{n:57,name:'Baltoy',r:'common'},{n:58,name:'Claydol',r:'holo'},{n:59,name:'Chimecho',r:'common'},{n:60,name:'Espurr',r:'common'},
+  {n:61,name:'Meowstic',r:'holo'},{n:62,name:'Mimikyu V',r:'double'},{n:63,name:'Necrozma V',r:'double'},{n:64,name:'Dottler',r:'common'},{n:65,name:'Orbeetle',r:'holo'},{n:66,name:'Mankey',r:'common'},
+  {n:67,name:'Primeape',r:'holo'},{n:68,name:'Onix',r:'common'},{n:69,name:'Cubone',r:'common'},{n:70,name:'Marowak',r:'holo'},{n:71,name:'Gligar',r:'common'},{n:72,name:'Gliscor',r:'common'},
+  {n:73,name:'Timburr',r:'common'},{n:74,name:'Gurdurr',r:'common'},{n:75,name:'Conkeldurr',r:'holo'},{n:76,name:'Mienfoo',r:'common'},{n:77,name:'Mienshao',r:'holo'},{n:78,name:'Rolycoly',r:'common'},
+  {n:79,name:'Carkol',r:'common'},{n:80,name:'Coalossal',r:'holo'},{n:81,name:'Silicobra',r:'common'},{n:82,name:'Sandaconda',r:'holo'},{n:83,name:'Falinks',r:'holo'},{n:84,name:'Stonjourner',r:'holo'},
+  {n:85,name:'Single Strike Urshifu V',r:'double'},{n:86,name:'Single Strike Urshifu VMAX',r:'double'},{n:87,name:'Rapid Strike Urshifu V',r:'double'},{n:88,name:'Rapid Strike Urshifu VMAX',r:'double'},{n:89,name:'Zubat',r:'common'},{n:90,name:'Golbat',r:'common'},
+  {n:91,name:'Crobat',r:'holo'},{n:92,name:'Galarian Slowbro',r:'holo'},{n:93,name:'Murkrow',r:'common'},{n:94,name:'Honchkrow',r:'common'},{n:95,name:'Houndour',r:'common'},{n:96,name:'Houndoom',r:'holo'},
+  {n:97,name:'Tyranitar V',r:'double'},{n:98,name:'Morpeko',r:'common'},{n:99,name:'Steelix',r:'holo'},{n:100,name:'Mawile',r:'common'},{n:101,name:'Bronzor',r:'common'},{n:102,name:'Bronzong',r:'holo'},
+  {n:103,name:'Pawniard',r:'common'},{n:104,name:'Bisharp',r:'common'},{n:105,name:'Honedge',r:'common'},{n:106,name:'Doublade',r:'common'},{n:107,name:'Aegislash',r:'holo'},{n:108,name:'Aegislash',r:'holo'},
+  {n:109,name:'Corviknight V',r:'double'},{n:110,name:'Corviknight VMAX',r:'double'},{n:111,name:'Spearow',r:'common'},{n:112,name:'Fearow',r:'common'},{n:113,name:'Lickitung',r:'common'},{n:114,name:'Lickilicky',r:'holo'},
+  {n:115,name:'Glameow',r:'common'},{n:116,name:'Purugly',r:'common'},{n:117,name:'Stoutland V',r:'double'},{n:118,name:'Bouffalant',r:'common'},{n:119,name:'Drampa',r:'holo'},{n:120,name:'Indeedee',r:'common'},
+  {n:121,name:'Bruno',r:'common'},{n:122,name:'Camping Gear',r:'common'},{n:123,name:'Cheryl',r:'common'},{n:124,name:'Energy Recycler',r:'common'},{n:125,name:'Escape Rope',r:'common'},{n:126,name:'Exp. Share',r:'common'},
+  {n:127,name:'Fan of Waves',r:'common'},{n:128,name:'Korrina\'s Focus',r:'common'},{n:129,name:'Level Ball',r:'common'},{n:130,name:'Phoebe',r:'common'},{n:131,name:'Rapid Strike Scroll of Swirls',r:'common'},{n:132,name:'Rapid Strike Style Mustard',r:'common'},
+  {n:133,name:'Single Strike Scroll of Scorn',r:'common'},{n:134,name:'Single Strike Style Mustard',r:'common'},{n:135,name:'Sordward & Shielbert',r:'common'},{n:136,name:'Tool Jammer',r:'common'},{n:137,name:'Tower of Darkness',r:'common'},{n:138,name:'Tower of Waters',r:'common'},
+  {n:139,name:'Urn of Vitality',r:'common'},{n:140,name:'Rapid Strike Energy',r:'common'},{n:141,name:'Single Strike Energy',r:'common'},{n:142,name:'Kricketune V',r:'gold1'},{n:143,name:'Flapple V',r:'gold1'},{n:144,name:'Victini V',r:'gold1'},
+  {n:145,name:'Empoleon V',r:'gold1'},{n:146,name:'Empoleon V',r:'gold1'},{n:147,name:'Tapu Koko V',r:'gold1'},{n:148,name:'Mimikyu V',r:'gold1'},{n:149,name:'Necrozma V',r:'gold1'},{n:150,name:'Single Strike Urshifu V',r:'gold1'},
+  {n:151,name:'Single Strike Urshifu V',r:'gold1'},{n:152,name:'Rapid Strike Urshifu V',r:'gold1'},{n:153,name:'Rapid Strike Urshifu V',r:'gold1'},{n:154,name:'Tyranitar V',r:'gold1'},{n:155,name:'Tyranitar V',r:'gold1'},{n:156,name:'Corviknight V',r:'gold1'},
+  {n:157,name:'Stoutland V',r:'gold1'},{n:158,name:'Bruno',r:'gold1'},{n:159,name:'Cheryl',r:'gold1'},{n:160,name:'Korrina\'s Focus',r:'gold1'},{n:161,name:'Phoebe',r:'gold1'},{n:162,name:'Rapid Strike Style Mustard',r:'gold1'},
+  {n:163,name:'Single Strike Style Mustard',r:'gold1'},{n:164,name:'Flapple VMAX',r:'gold2'},{n:165,name:'Victini VMAX',r:'gold2'},{n:166,name:'Tapu Koko VMAX',r:'gold2'},{n:167,name:'Single Strike Urshifu VMAX',r:'gold2'},{n:168,name:'Single Strike Urshifu VMAX',r:'gold2'},
+  {n:169,name:'Rapid Strike Urshifu VMAX',r:'gold2'},{n:170,name:'Rapid Strike Urshifu VMAX',r:'gold2'},{n:171,name:'Corviknight VMAX',r:'gold2'},{n:172,name:'Bruno',r:'gold2'},{n:173,name:'Cheryl',r:'gold2'},{n:174,name:'Korrina\'s Focus',r:'gold2'},
+  {n:175,name:'Phoebe',r:'gold2'},{n:176,name:'Rapid Strike Style Mustard',r:'gold2'},{n:177,name:'Single Strike Style Mustard',r:'gold2'},{n:178,name:'Octillery',r:'gold2'},{n:179,name:'Houndoom',r:'gold2'},{n:180,name:'Exp. Share',r:'gold2'},
+  {n:181,name:'Level Ball',r:'gold2'},{n:182,name:'Rapid Strike Energy',r:'gold2'},{n:183,name:'Single Strike Energy',r:'gold2'}
+];
+SETS.swsh5.cards = CARDS_SWSH5;
+SETS.swsh5.total = CARDS_SWSH5.length;
+
+const CARDS_SWSH6 = [
+  {n:1,name:'Weedle',r:'common'},{n:2,name:'Kakuna',r:'common'},{n:3,name:'Beedrill',r:'holo'},{n:4,name:'Ledyba',r:'common'},{n:5,name:'Ledian',r:'common'},{n:6,name:'Heracross',r:'common'},
+  {n:7,name:'Celebi V',r:'double'},{n:8,name:'Celebi VMAX',r:'double'},{n:9,name:'Snover',r:'common'},{n:10,name:'Abomasnow',r:'holo'},{n:11,name:'Deerling',r:'common'},{n:12,name:'Sawsbuck',r:'holo'},
+  {n:13,name:'Bounsweet',r:'common'},{n:14,name:'Steenee',r:'common'},{n:15,name:'Tsareena',r:'holo'},{n:16,name:'Grookey',r:'common'},{n:17,name:'Thwackey',r:'common'},{n:18,name:'Rillaboom',r:'holo'},
+  {n:19,name:'Zarude',r:'holo'},{n:20,name:'Blaziken V',r:'double'},{n:21,name:'Blaziken VMAX',r:'double'},{n:22,name:'Castform Sunny Form',r:'common'},{n:23,name:'Larvesta',r:'common'},{n:24,name:'Volcarona',r:'holo'},
+  {n:25,name:'Volcanion V',r:'double'},{n:26,name:'Scorbunny',r:'common'},{n:27,name:'Raboot',r:'common'},{n:28,name:'Cinderace',r:'holo'},{n:29,name:'Lapras',r:'common'},{n:30,name:'Sneasel',r:'common'},
+  {n:31,name:'Weavile',r:'holo'},{n:32,name:'Delibird',r:'common'},{n:33,name:'Castform Rainy Form',r:'common'},{n:34,name:'Castform Snowy Form',r:'common'},{n:35,name:'Snorunt',r:'common'},{n:36,name:'Froslass',r:'holo'},
+  {n:37,name:'Spheal',r:'common'},{n:38,name:'Sealeo',r:'common'},{n:39,name:'Walrein',r:'holo'},{n:40,name:'Tapu Fini',r:'holo'},{n:41,name:'Sobble',r:'common'},{n:42,name:'Drizzile',r:'common'},
+  {n:43,name:'Inteleon',r:'holo'},{n:44,name:'Rapid Strike Urshifu',r:'holo'},{n:45,name:'Ice Rider Calyrex V',r:'double'},{n:46,name:'Ice Rider Calyrex VMAX',r:'double'},{n:47,name:'Mareep',r:'common'},{n:48,name:'Flaaffy',r:'common'},
+  {n:49,name:'Ampharos',r:'holo'},{n:50,name:'Blitzle',r:'common'},{n:51,name:'Zebstrika',r:'holo'},{n:52,name:'Thundurus',r:'holo'},{n:53,name:'Zeraora V',r:'double'},{n:54,name:'Galarian Slowpoke',r:'common'},
+  {n:55,name:'Gastly',r:'common'},{n:56,name:'Haunter',r:'common'},{n:57,name:'Gengar',r:'holo'},{n:58,name:'Galarian Articuno V',r:'double'},{n:59,name:'Ralts',r:'common'},{n:60,name:'Kirlia',r:'common'},
+  {n:61,name:'Gardevoir',r:'holo'},{n:62,name:'Shuppet',r:'common'},{n:63,name:'Banette',r:'holo'},{n:64,name:'Cresselia',r:'holo'},{n:65,name:'Golett',r:'common'},{n:66,name:'Golurk',r:'holo'},
+  {n:67,name:'Swirlix',r:'common'},{n:68,name:'Slurpuff',r:'holo'},{n:69,name:'Inkay',r:'common'},{n:70,name:'Malamar',r:'holo'},{n:71,name:'Hatenna',r:'common'},{n:72,name:'Hattrem',r:'common'},
+  {n:73,name:'Hatterene',r:'holo'},{n:74,name:'Shadow Rider Calyrex V',r:'double'},{n:75,name:'Shadow Rider Calyrex VMAX',r:'double'},{n:76,name:'Diglett',r:'common'},{n:77,name:'Dugtrio',r:'holo'},{n:78,name:'Galarian Farfetch\'d',r:'common'},
+  {n:79,name:'Galarian Sirfetch\'d',r:'holo'},{n:80,name:'Galarian Zapdos V',r:'double'},{n:81,name:'Gallade',r:'holo'},{n:82,name:'Galarian Yamask',r:'common'},{n:83,name:'Galarian Runerigus',r:'holo'},{n:84,name:'Crabrawler',r:'common'},
+  {n:85,name:'Crabominable',r:'common'},{n:86,name:'Rockruff',r:'common'},{n:87,name:'Lycanroc',r:'holo'},{n:88,name:'Passimian',r:'holo'},{n:89,name:'Sandaconda V',r:'double'},{n:90,name:'Sandaconda VMAX',r:'double'},
+  {n:91,name:'Clobbopus',r:'common'},{n:92,name:'Grapploct',r:'holo'},{n:93,name:'Kubfu',r:'common'},{n:94,name:'Koffing',r:'common'},{n:95,name:'Weezing',r:'holo'},{n:96,name:'Galarian Weezing',r:'holo'},
+  {n:97,name:'Galarian Moltres V',r:'double'},{n:98,name:'Galarian Slowking',r:'holo'},{n:99,name:'Galarian Slowking V',r:'double'},{n:100,name:'Galarian Slowking VMAX',r:'double'},{n:101,name:'Qwilfish',r:'common'},{n:102,name:'Seviper',r:'holo'},
+  {n:103,name:'Spiritomb',r:'holo'},{n:104,name:'Liepard V',r:'double'},{n:105,name:'Venipede',r:'common'},{n:106,name:'Whirlipede',r:'common'},{n:107,name:'Scolipede',r:'holo'},{n:108,name:'Single Strike Urshifu',r:'holo'},
+  {n:109,name:'Aron',r:'common'},{n:110,name:'Lairon',r:'common'},{n:111,name:'Aggron',r:'holo'},{n:112,name:'Metagross V',r:'double'},{n:113,name:'Metagross VMAX',r:'double'},{n:114,name:'Cobalion',r:'holo'},
+  {n:115,name:'Tauros',r:'holo'},{n:116,name:'Porygon',r:'common'},{n:117,name:'Porygon2',r:'common'},{n:118,name:'Porygon-Z',r:'holo'},{n:119,name:'Blissey V',r:'double'},{n:120,name:'Zangoose',r:'holo'},
+  {n:121,name:'Castform',r:'common'},{n:122,name:'Kecleon',r:'holo'},{n:123,name:'Shaymin',r:'holo'},{n:124,name:'Tornadus V',r:'double'},{n:125,name:'Tornadus VMAX',r:'double'},{n:126,name:'Furfrou',r:'common'},
+  {n:127,name:'Skwovet',r:'common'},{n:128,name:'Greedent',r:'holo'},{n:129,name:'Agatha',r:'common'},{n:130,name:'Avery',r:'common'},{n:131,name:'Brawly',r:'common'},{n:132,name:'Caitlin',r:'common'},
+  {n:133,name:'Crushing Gloves',r:'common'},{n:134,name:'Doctor',r:'common'},{n:135,name:'Dyna Tree Hill',r:'common'},{n:136,name:'Echoing Horn',r:'common'},{n:137,name:'Expedition Uniform',r:'common'},{n:138,name:'Fire-Resistant Gloves',r:'common'},
+  {n:139,name:'Flannery',r:'common'},{n:140,name:'Fog Crystal',r:'common'},{n:141,name:'Galarian Chestplate',r:'common'},{n:142,name:'Honey',r:'common'},{n:143,name:'Justified Gloves',r:'common'},{n:144,name:'Karen\'s Conviction',r:'common'},
+  {n:145,name:'Klara',r:'common'},{n:146,name:'Melony',r:'common'},{n:147,name:'Old Cemetery',r:'common'},{n:148,name:'Path to the Peak',r:'common'},{n:149,name:'Peonia',r:'common'},{n:150,name:'Peony',r:'common'},
+  {n:151,name:'Rapid Strike Scroll of the Skies',r:'common'},{n:152,name:'Rugged Helmet',r:'common'},{n:153,name:'Siebold',r:'common'},{n:154,name:'Single Strike Scroll of Piercing',r:'common'},{n:155,name:'Weeding Gloves',r:'common'},{n:156,name:'Welcoming Lantern',r:'common'},
+  {n:157,name:'Impact Energy',r:'common'},{n:158,name:'Lucky Energy',r:'common'},{n:159,name:'Spiral Energy',r:'common'},{n:160,name:'Celebi V',r:'gold1'},{n:161,name:'Blaziken V',r:'gold1'},{n:162,name:'Volcanion V',r:'gold1'},
+  {n:163,name:'Ice Rider Calyrex V',r:'gold1'},{n:164,name:'Ice Rider Calyrex V',r:'gold1'},{n:165,name:'Zeraora V',r:'gold1'},{n:166,name:'Zeraora V',r:'gold1'},{n:167,name:'Galarian Rapidash V',r:'gold1'},{n:168,name:'Galarian Rapidash V',r:'gold1'},
+  {n:169,name:'Galarian Articuno V',r:'gold1'},{n:170,name:'Galarian Articuno V',r:'gold1'},{n:171,name:'Shadow Rider Calyrex V',r:'gold1'},{n:172,name:'Shadow Rider Calyrex V',r:'gold1'},{n:173,name:'Galarian Zapdos V',r:'gold1'},{n:174,name:'Galarian Zapdos V',r:'gold1'},
+  {n:175,name:'Sandaconda V',r:'gold1'},{n:176,name:'Galarian Moltres V',r:'gold1'},{n:177,name:'Galarian Moltres V',r:'gold1'},{n:178,name:'Galarian Slowking V',r:'gold1'},{n:179,name:'Galarian Slowking V',r:'gold1'},{n:180,name:'Liepard V',r:'gold1'},
+  {n:181,name:'Metagross V',r:'gold1'},{n:182,name:'Blissey V',r:'gold1'},{n:183,name:'Blissey V',r:'gold1'},{n:184,name:'Tornadus V',r:'gold1'},{n:185,name:'Tornadus V',r:'gold1'},{n:186,name:'Agatha',r:'gold1'},
+  {n:187,name:'Avery',r:'gold1'},{n:188,name:'Brawly',r:'gold1'},{n:189,name:'Caitlin',r:'gold1'},{n:190,name:'Doctor',r:'gold1'},{n:191,name:'Flannery',r:'gold1'},{n:192,name:'Honey',r:'gold1'},
+  {n:193,name:'Karen\'s Conviction',r:'gold1'},{n:194,name:'Klara',r:'gold1'},{n:195,name:'Melony',r:'gold1'},{n:196,name:'Peonia',r:'gold1'},{n:197,name:'Peony',r:'gold1'},{n:198,name:'Siebold',r:'gold1'},
+  {n:199,name:'Celebi VMAX',r:'gold2'},{n:200,name:'Blaziken VMAX',r:'gold2'},{n:201,name:'Blaziken VMAX',r:'gold2'},{n:202,name:'Ice Rider Calyrex VMAX',r:'gold2'},{n:203,name:'Ice Rider Calyrex VMAX',r:'gold2'},{n:204,name:'Shadow Rider Calyrex VMAX',r:'gold2'},
+  {n:205,name:'Shadow Rider Calyrex VMAX',r:'gold2'},{n:206,name:'Sandaconda VMAX',r:'gold2'},{n:207,name:'Galarian Slowking VMAX',r:'gold2'},{n:208,name:'Metagross VMAX',r:'gold2'},{n:209,name:'Tornadus VMAX',r:'gold2'},{n:210,name:'Agatha',r:'gold2'},
+  {n:211,name:'Avery',r:'gold2'},{n:212,name:'Brawly',r:'gold2'},{n:213,name:'Caitlin',r:'gold2'},{n:214,name:'Doctor',r:'gold2'},{n:215,name:'Flannery',r:'gold2'},{n:216,name:'Karen\'s Conviction',r:'gold2'},
+  {n:217,name:'Klara',r:'gold2'},{n:218,name:'Melony',r:'gold2'},{n:219,name:'Peonia',r:'gold2'},{n:220,name:'Peony',r:'gold2'},{n:221,name:'Siebold',r:'gold2'},{n:222,name:'Electrode',r:'gold2'},
+  {n:223,name:'Bronzong',r:'gold2'},{n:224,name:'Snorlax',r:'gold2'},{n:225,name:'Echoing Horn',r:'gold2'},{n:226,name:'Fan of Waves',r:'gold2'},{n:227,name:'Fog Crystal',r:'gold2'},{n:228,name:'Rugged Helmet',r:'gold2'},
+  {n:229,name:'Urn of Vitality',r:'gold2'},{n:230,name:'Welcoming Lantern',r:'gold2'},{n:231,name:'Water Energy',r:'gold2'},{n:232,name:'Psychic Energy',r:'gold2'},{n:233,name:'Fighting Energy',r:'gold2'}
+];
+SETS.swsh6.cards = CARDS_SWSH6;
+SETS.swsh6.total = CARDS_SWSH6.length;
+
+const CARDS_SWSH7 = [
+  {n:1,name:'Pinsir',r:'holo'},{n:2,name:'Hoppip',r:'common'},{n:3,name:'Skiploom',r:'common'},{n:4,name:'Jumpluff',r:'holo'},{n:5,name:'Seedot',r:'common'},{n:6,name:'Tropius',r:'holo'},
+  {n:7,name:'Leafeon V',r:'double'},{n:8,name:'Leafeon VMAX',r:'double'},{n:9,name:'Petilil',r:'common'},{n:10,name:'Lilligant',r:'holo'},{n:11,name:'Dwebble',r:'common'},{n:12,name:'Crustle',r:'common'},
+  {n:13,name:'Trevenant V',r:'double'},{n:14,name:'Trevenant VMAX',r:'double'},{n:15,name:'Gossifleur',r:'common'},{n:16,name:'Eldegoss',r:'holo'},{n:17,name:'Applin',r:'common'},{n:18,name:'Flareon VMAX',r:'double'},
+  {n:19,name:'Entei',r:'holo'},{n:20,name:'Victini',r:'holo'},{n:21,name:'Volcarona V',r:'double'},{n:22,name:'Litleo',r:'common'},{n:23,name:'Pyroar',r:'common'},{n:24,name:'Psyduck',r:'common'},
+  {n:25,name:'Golduck',r:'common'},{n:26,name:'Tentacool',r:'common'},{n:27,name:'Tentacruel',r:'common'},{n:28,name:'Gyarados V',r:'double'},{n:29,name:'Gyarados VMAX',r:'double'},{n:30,name:'Vaporeon VMAX',r:'double'},
+  {n:31,name:'Suicune V',r:'double'},{n:32,name:'Lotad',r:'common'},{n:33,name:'Lombre',r:'common'},{n:34,name:'Ludicolo',r:'holo'},{n:35,name:'Carvanha',r:'common'},{n:36,name:'Sharpedo',r:'holo'},
+  {n:37,name:'Feebas',r:'common'},{n:38,name:'Milotic',r:'holo'},{n:39,name:'Luvdisc',r:'common'},{n:40,name:'Glaceon V',r:'double'},{n:41,name:'Glaceon VMAX',r:'double'},{n:42,name:'Tympole',r:'common'},
+  {n:43,name:'Cryogonal',r:'common'},{n:44,name:'Bergmite',r:'common'},{n:45,name:'Avalugg',r:'common'},{n:46,name:'Wishiwashi',r:'holo'},{n:47,name:'Eiscue',r:'common'},{n:48,name:'Arctovish V',r:'double'},
+  {n:49,name:'Pikachu',r:'common'},{n:50,name:'Raichu',r:'holo'},{n:51,name:'Jolteon VMAX',r:'double'},{n:52,name:'Chinchou',r:'common'},{n:53,name:'Lanturn',r:'common'},{n:54,name:'Mareep',r:'common'},
+  {n:55,name:'Flaaffy',r:'common'},{n:56,name:'Ampharos',r:'holo'},{n:57,name:'Emolga',r:'common'},{n:58,name:'Dracozolt V',r:'double'},{n:59,name:'Dracozolt VMAX',r:'double'},{n:60,name:'Regieleki',r:'holo'},
+  {n:61,name:'Drowzee',r:'common'},{n:62,name:'Hypno',r:'common'},{n:63,name:'Galarian Articuno',r:'holo'},{n:64,name:'Espeon V',r:'double'},{n:65,name:'Espeon VMAX',r:'double'},{n:66,name:'Wobbuffet',r:'common'},
+  {n:67,name:'Sableye',r:'common'},{n:68,name:'Woobat',r:'common'},{n:69,name:'Swoobat',r:'common'},{n:70,name:'Golurk V',r:'double'},{n:71,name:'Flabébé',r:'common'},{n:72,name:'Floette',r:'common'},
+  {n:73,name:'Florges',r:'holo'},{n:74,name:'Sylveon V',r:'double'},{n:75,name:'Sylveon VMAX',r:'double'},{n:76,name:'Pumpkaboo',r:'common'},{n:77,name:'Gourgeist',r:'holo'},{n:78,name:'Cutiefly',r:'common'},
+  {n:79,name:'Ribombee',r:'common'},{n:80,name:'Marshadow',r:'holo'},{n:81,name:'Hitmonchan',r:'common'},{n:82,name:'Galarian Zapdos',r:'holo'},{n:83,name:'Medicham V',r:'double'},{n:84,name:'Hippopotas',r:'common'},
+  {n:85,name:'Hippowdon',r:'common'},{n:86,name:'Roggenrola',r:'common'},{n:87,name:'Boldore',r:'common'},{n:88,name:'Gigalith',r:'holo'},{n:89,name:'Palpitoad',r:'common'},{n:90,name:'Seismitoad',r:'holo'},
+  {n:91,name:'Lycanroc V',r:'double'},{n:92,name:'Lycanroc VMAX',r:'double'},{n:93,name:'Galarian Moltres',r:'holo'},{n:94,name:'Umbreon V',r:'double'},{n:95,name:'Umbreon VMAX',r:'double'},{n:96,name:'Nuzleaf',r:'common'},
+  {n:97,name:'Shiftry',r:'holo'},{n:98,name:'Scraggy',r:'common'},{n:99,name:'Scrafty',r:'common'},{n:100,name:'Garbodor V',r:'double'},{n:101,name:'Garbodor VMAX',r:'double'},{n:102,name:'Zorua',r:'common'},
+  {n:103,name:'Zoroark',r:'holo'},{n:104,name:'Nickit',r:'common'},{n:105,name:'Thievul',r:'holo'},{n:106,name:'Altaria',r:'holo'},{n:107,name:'Bagon',r:'common'},{n:108,name:'Shelgon',r:'common'},
+  {n:109,name:'Salamence',r:'holo'},{n:110,name:'Rayquaza V',r:'double'},{n:111,name:'Rayquaza VMAX',r:'double'},{n:112,name:'Dialga',r:'holo'},{n:113,name:'Deino',r:'common'},{n:114,name:'Zweilous',r:'common'},
+  {n:115,name:'Hydreigon',r:'holo'},{n:116,name:'Kyurem',r:'holo'},{n:117,name:'Noivern V',r:'double'},{n:118,name:'Zygarde',r:'holo'},{n:119,name:'Drampa',r:'holo'},{n:120,name:'Flapple',r:'holo'},
+  {n:121,name:'Appletun',r:'holo'},{n:122,name:'Duraludon V',r:'double'},{n:123,name:'Duraludon VMAX',r:'double'},{n:124,name:'Regidrago',r:'holo'},{n:125,name:'Eevee',r:'common'},{n:126,name:'Teddiursa',r:'common'},
+  {n:127,name:'Ursaring',r:'common'},{n:128,name:'Smeargle',r:'holo'},{n:129,name:'Slakoth',r:'common'},{n:130,name:'Vigoroth',r:'common'},{n:131,name:'Slaking',r:'holo'},{n:132,name:'Swablu',r:'common'},
+  {n:133,name:'Lillipup',r:'common'},{n:134,name:'Herdier',r:'common'},{n:135,name:'Stoutland',r:'holo'},{n:136,name:'Rufflet',r:'common'},{n:137,name:'Braviary',r:'common'},{n:138,name:'Fletchling',r:'common'},
+  {n:139,name:'Fletchinder',r:'common'},{n:140,name:'Talonflame',r:'holo'},{n:141,name:'Aroma Lady',r:'common'},{n:142,name:'Boost Shake',r:'common'},{n:143,name:'Copycat',r:'common'},{n:144,name:'Crystal Cave',r:'common'},
+  {n:145,name:'Digging Gloves',r:'common'},{n:146,name:'Dream Ball',r:'common'},{n:147,name:'Elemental Badge',r:'common'},{n:148,name:'Full Face Guard',r:'common'},{n:149,name:'Gordie',r:'common'},{n:150,name:'Lucky Ice Pop',r:'common'},
+  {n:151,name:'Moon & Sun Badge',r:'common'},{n:152,name:'Raihan',r:'common'},{n:153,name:'Rapid Strike Scroll of the Flying Dragon',r:'common'},{n:154,name:'Rescue Carrier',r:'common'},{n:155,name:'Ribbon Badge',r:'common'},{n:156,name:'Rubber Gloves',r:'common'},
+  {n:157,name:'Shopping Center',r:'common'},{n:158,name:'Single Strike Scroll of the Fanged Dragon',r:'common'},{n:159,name:'Snow Leaf Badge',r:'common'},{n:160,name:'Spirit Mask',r:'common'},{n:161,name:'Stormy Mountains',r:'common'},{n:162,name:'Switching Cups',r:'common'},
+  {n:163,name:'Toy Catcher',r:'common'},{n:164,name:'Zinnia\'s Resolve',r:'common'},{n:165,name:'Treasure Energy',r:'common'},{n:166,name:'Leafeon V',r:'gold1'},{n:167,name:'Leafeon V',r:'gold1'},{n:168,name:'Trevenant V',r:'gold1'},
+  {n:169,name:'Flareon V',r:'gold1'},{n:170,name:'Volcarona V',r:'gold1'},{n:171,name:'Gyarados V',r:'gold1'},{n:172,name:'Vaporeon V',r:'gold1'},{n:173,name:'Suicune V',r:'gold1'},{n:174,name:'Glaceon V',r:'gold1'},
+  {n:175,name:'Glaceon V',r:'gold1'},{n:176,name:'Arctovish V',r:'gold1'},{n:177,name:'Jolteon V',r:'gold1'},{n:178,name:'Dracozolt V',r:'gold1'},{n:179,name:'Espeon V',r:'gold1'},{n:180,name:'Espeon V',r:'gold1'},
+  {n:181,name:'Golurk V',r:'gold1'},{n:182,name:'Golurk V',r:'gold1'},{n:183,name:'Sylveon V',r:'gold1'},{n:184,name:'Sylveon V',r:'gold1'},{n:185,name:'Medicham V',r:'gold1'},{n:186,name:'Medicham V',r:'gold1'},
+  {n:187,name:'Lycanroc V',r:'gold1'},{n:188,name:'Umbreon V',r:'gold1'},{n:189,name:'Umbreon V',r:'gold1'},{n:190,name:'Garbodor V',r:'gold1'},{n:191,name:'Dragonite V',r:'gold1'},{n:192,name:'Dragonite V',r:'gold1'},
+  {n:193,name:'Rayquaza V',r:'gold1'},{n:194,name:'Rayquaza V',r:'gold1'},{n:195,name:'Noivern V',r:'gold1'},{n:196,name:'Noivern V',r:'gold1'},{n:197,name:'Duraludon V',r:'gold1'},{n:198,name:'Duraludon V',r:'gold1'},
+  {n:199,name:'Aroma Lady',r:'gold1'},{n:200,name:'Copycat',r:'gold1'},{n:201,name:'Gordie',r:'gold1'},{n:202,name:'Raihan',r:'gold1'},{n:203,name:'Zinnia\'s Resolve',r:'gold1'},{n:204,name:'Leafeon VMAX',r:'gold2'},
+  {n:205,name:'Leafeon VMAX',r:'gold2'},{n:206,name:'Trevenant VMAX',r:'gold2'},{n:207,name:'Gyarados VMAX',r:'gold2'},{n:208,name:'Glaceon VMAX',r:'gold2'},{n:209,name:'Glaceon VMAX',r:'gold2'},{n:210,name:'Dracozolt VMAX',r:'gold2'},
+  {n:211,name:'Sylveon VMAX',r:'gold2'},{n:212,name:'Sylveon VMAX',r:'gold2'},{n:213,name:'Lycanroc VMAX',r:'gold2'},{n:214,name:'Umbreon VMAX',r:'gold2'},{n:215,name:'Umbreon VMAX',r:'gold2'},{n:216,name:'Garbodor VMAX',r:'gold2'},
+  {n:217,name:'Rayquaza VMAX',r:'gold2'},{n:218,name:'Rayquaza VMAX',r:'gold2'},{n:219,name:'Duraludon VMAX',r:'gold2'},{n:220,name:'Duraludon VMAX',r:'gold2'},{n:221,name:'Aroma Lady',r:'gold2'},{n:222,name:'Copycat',r:'gold2'},
+  {n:223,name:'Gordie',r:'gold2'},{n:224,name:'Raihan',r:'gold2'},{n:225,name:'Zinnia\'s Resolve',r:'gold2'},{n:226,name:'Froslass',r:'gold2'},{n:227,name:'Inteleon',r:'gold2'},{n:228,name:'Cresselia',r:'gold2'},
+  {n:229,name:'Boost Shake',r:'gold2'},{n:230,name:'Crystal Cave',r:'gold2'},{n:231,name:'Full Face Guard',r:'gold2'},{n:232,name:'Stormy Mountains',r:'gold2'},{n:233,name:'Toy Catcher',r:'gold2'},{n:234,name:'Turffield Stadium',r:'gold2'},
+  {n:235,name:'Lightning Energy',r:'gold2'},{n:236,name:'Darkness Energy',r:'gold2'},{n:237,name:'Metal Energy',r:'gold2'}
+];
+SETS.swsh7.cards = CARDS_SWSH7;
+SETS.swsh7.total = CARDS_SWSH7.length;
+
+const CARDS_CEL25 = [
+  {n:1,name:'Ho-Oh',r:'holo'},{n:2,name:'Reshiram',r:'holo'},{n:3,name:'Kyogre',r:'holo'},{n:4,name:'Palkia',r:'holo'},{n:5,name:'Pikachu',r:'holo'},{n:6,name:'Flying Pikachu V',r:'double'},
+  {n:7,name:'Flying Pikachu VMAX',r:'double'},{n:8,name:'Surfing Pikachu V',r:'double'},{n:9,name:'Surfing Pikachu VMAX',r:'double'},{n:10,name:'Zekrom',r:'holo'},{n:11,name:'Mew',r:'holo'},{n:12,name:'Xerneas',r:'holo'},
+  {n:13,name:'Cosmog',r:'holo'},{n:14,name:'Cosmoem',r:'holo'},{n:15,name:'Lunala',r:'holo'},{n:16,name:'Zacian V',r:'double'},{n:17,name:'Groudon',r:'holo'},{n:18,name:'Zamazenta V',r:'double'},
+  {n:19,name:'Yveltal',r:'holo'},{n:20,name:'Dialga',r:'holo'},{n:21,name:'Solgaleo',r:'holo'},{n:22,name:'Lugia',r:'holo'},{n:23,name:'Professor\'s Research (Professor Oak)',r:'holo'},{n:24,name:'Professor\'s Research (Professor Oak)',r:'gold1'},
+  {n:25,name:'Mew',r:'holo'}
+];
+SETS.cel25.cards = CARDS_CEL25;
+SETS.cel25.total = CARDS_CEL25.length;
+
+
+const CARDS_SWSH8 = [
+  {n:1,name:'Caterpie',r:'common'},{n:2,name:'Metapod',r:'common'},{n:3,name:'Butterfree',r:'holo'},{n:4,name:'Shroomish',r:'common'},{n:5,name:'Breloom',r:'common'},{n:6,name:'Breloom V',r:'double'},
+  {n:7,name:'Pansage',r:'common'},{n:8,name:'Simisage',r:'common'},{n:9,name:'Sewaddle',r:'common'},{n:10,name:'Swadloon',r:'common'},{n:11,name:'Leavanny',r:'holo'},{n:12,name:'Maractus',r:'holo'},
+  {n:13,name:'Shelmet',r:'common'},{n:14,name:'Accelgor',r:'holo'},{n:15,name:'Virizion',r:'holo'},{n:16,name:'Phantump',r:'common'},{n:17,name:'Trevenant',r:'common'},{n:18,name:'Grubbin',r:'common'},
+  {n:19,name:'Dewpider',r:'common'},{n:20,name:'Araquanid',r:'holo'},{n:21,name:'Tsareena V',r:'double'},{n:22,name:'Rillaboom V',r:'double'},{n:23,name:'Rillaboom VMAX',r:'double'},{n:24,name:'Gossifleur',r:'common'},
+  {n:25,name:'Eldegoss',r:'common'},{n:26,name:'Appletun V',r:'double'},{n:27,name:'Zarude',r:'common'},{n:28,name:'Vulpix',r:'common'},{n:29,name:'Vulpix',r:'common'},{n:30,name:'Ninetales',r:'common'},
+  {n:31,name:'Ninetales',r:'common'},{n:32,name:'Growlithe',r:'common'},{n:33,name:'Arcanine',r:'holo'},{n:34,name:'Slugma',r:'common'},{n:35,name:'Magcargo',r:'common'},{n:36,name:'Victini',r:'common'},
+  {n:37,name:'Pansear',r:'common'},{n:38,name:'Simisear',r:'common'},{n:39,name:'Chandelure V',r:'double'},{n:40,name:'Chandelure VMAX',r:'double'},{n:41,name:'Heatmor',r:'common'},{n:42,name:'Oricorio',r:'holo'},
+  {n:43,name:'Cinderace V',r:'double'},{n:44,name:'Cinderace V',r:'double'},{n:45,name:'Cinderace VMAX',r:'double'},{n:46,name:'Sizzlipede',r:'common'},{n:47,name:'Sizzlipede',r:'common'},{n:48,name:'Centiskorch',r:'holo'},
+  {n:49,name:'Centiskorch',r:'common'},{n:50,name:'Shellder',r:'common'},{n:51,name:'Cloyster',r:'holo'},{n:52,name:'Staryu',r:'common'},{n:53,name:'Starmie',r:'holo'},{n:54,name:'Lapras',r:'common'},
+  {n:55,name:'Totodile',r:'common'},{n:56,name:'Croconaw',r:'common'},{n:57,name:'Feraligatr',r:'holo'},{n:58,name:'Marill',r:'common'},{n:59,name:'Azumarill',r:'holo'},{n:60,name:'Qwilfish',r:'common'},
+  {n:61,name:'Mantine',r:'common'},{n:62,name:'Mudkip',r:'common'},{n:63,name:'Marshtomp',r:'common'},{n:64,name:'Swampert',r:'holo'},{n:65,name:'Clamperl',r:'common'},{n:66,name:'Huntail',r:'holo'},
+  {n:67,name:'Gorebyss',r:'holo'},{n:68,name:'Panpour',r:'common'},{n:69,name:'Simipour',r:'common'},{n:70,name:'Basculin',r:'common'},{n:71,name:'Galarian Darumaka',r:'common'},{n:72,name:'Galarian Darmanitan',r:'common'},
+  {n:73,name:'Greninja V',r:'double'},{n:74,name:'Clauncher',r:'common'},{n:75,name:'Clawitzer',r:'common'},{n:76,name:'Crabominable V',r:'double'},{n:77,name:'Pyukumuku',r:'common'},{n:78,name:'Inteleon V',r:'double'},
+  {n:79,name:'Inteleon VMAX',r:'double'},{n:80,name:'Chewtle',r:'common'},{n:81,name:'Drednaw',r:'common'},{n:82,name:'Arrokuda',r:'common'},{n:83,name:'Barraskewda',r:'common'},{n:84,name:'Snom',r:'common'},
+  {n:85,name:'Frosmoth',r:'common'},{n:86,name:'Pikachu V',r:'double'},{n:87,name:'Voltorb',r:'common'},{n:88,name:'Electrode',r:'holo'},{n:89,name:'Plusle',r:'common'},{n:90,name:'Minun',r:'common'},
+  {n:91,name:'Shinx',r:'common'},{n:92,name:'Luxio',r:'common'},{n:93,name:'Luxray',r:'holo'},{n:94,name:'Rotom',r:'common'},{n:95,name:'Tynamo',r:'common'},{n:96,name:'Eelektrik',r:'common'},
+  {n:97,name:'Eelektross',r:'holo'},{n:98,name:'Helioptile',r:'common'},{n:99,name:'Heliolisk',r:'common'},{n:100,name:'Charjabug',r:'common'},{n:101,name:'Vikavolt',r:'holo'},{n:102,name:'Zeraora',r:'holo'},
+  {n:103,name:'Boltund V',r:'double'},{n:104,name:'Boltund VMAX',r:'double'},{n:105,name:'Toxel',r:'common'},{n:106,name:'Toxel',r:'common'},{n:107,name:'Toxtricity',r:'holo'},{n:108,name:'Toxtricity',r:'holo'},
+  {n:109,name:'Morpeko',r:'common'},{n:110,name:'Jigglypuff',r:'common'},{n:111,name:'Wigglytuff',r:'common'},{n:112,name:'Jynx',r:'common'},{n:113,name:'Mew V',r:'double'},{n:114,name:'Mew VMAX',r:'double'},
+  {n:115,name:'Snubbull',r:'common'},{n:116,name:'Granbull',r:'holo'},{n:117,name:'Galarian Corsola',r:'common'},{n:118,name:'Galarian Cursola',r:'holo'},{n:119,name:'Mawile',r:'common'},{n:120,name:'Deoxys',r:'holo'},
+  {n:121,name:'Munna',r:'common'},{n:122,name:'Musharna',r:'common'},{n:123,name:'Sigilyph',r:'common'},{n:124,name:'Meloetta',r:'holo'},{n:125,name:'Sandygast',r:'common'},{n:126,name:'Palossand',r:'holo'},
+  {n:127,name:'Indeedee',r:'common'},{n:128,name:'Dreepy',r:'common'},{n:129,name:'Drakloak',r:'common'},{n:130,name:'Dragapult',r:'holo'},{n:131,name:'Sandshrew',r:'common'},{n:132,name:'Sandslash',r:'common'},
+  {n:133,name:'Mankey',r:'common'},{n:134,name:'Primeape',r:'common'},{n:135,name:'Geodude',r:'common'},{n:136,name:'Graveler',r:'common'},{n:137,name:'Golem',r:'holo'},{n:138,name:'Onix',r:'common'},
+  {n:139,name:'Steelix',r:'holo'},{n:140,name:'Gligar',r:'common'},{n:141,name:'Gliscor',r:'common'},{n:142,name:'Makuhita',r:'common'},{n:143,name:'Hariyama',r:'common'},{n:144,name:'Baltoy',r:'common'},
+  {n:145,name:'Claydol',r:'holo'},{n:146,name:'Lucario V',r:'double'},{n:147,name:'Drilbur',r:'common'},{n:148,name:'Landorus',r:'holo'},{n:149,name:'Pancham',r:'common'},{n:150,name:'Stufful',r:'common'},
+  {n:151,name:'Bewear',r:'common'},{n:152,name:'Clobbopus',r:'common'},{n:153,name:'Grapploct',r:'common'},{n:154,name:'Falinks',r:'common'},{n:155,name:'Falinks',r:'common'},{n:156,name:'Gengar V',r:'double'},
+  {n:157,name:'Gengar VMAX',r:'double'},{n:158,name:'Tyranitar V',r:'double'},{n:159,name:'Galarian Zigzagoon',r:'common'},{n:160,name:'Galarian Linoone',r:'common'},{n:161,name:'Galarian Obstagoon',r:'holo'},{n:162,name:'Carvanha',r:'common'},
+  {n:163,name:'Sharpedo',r:'common'},{n:164,name:'Absol',r:'holo'},{n:165,name:'Croagunk',r:'common'},{n:166,name:'Toxicroak',r:'holo'},{n:167,name:'Darkrai',r:'common'},{n:168,name:'Trubbish',r:'common'},
+  {n:169,name:'Garbodor',r:'common'},{n:170,name:'Zorua',r:'common'},{n:171,name:'Zoroark',r:'common'},{n:172,name:'Vullaby',r:'common'},{n:173,name:'Mandibuzz',r:'common'},{n:174,name:'Pangoro',r:'common'},
+  {n:175,name:'Yveltal',r:'holo'},{n:176,name:'Impidimp',r:'common'},{n:177,name:'Morgrem',r:'common'},{n:178,name:'Grimmsnarl',r:'holo'},{n:179,name:'Morpeko',r:'common'},{n:180,name:'Galarian Meowth',r:'common'},
+  {n:181,name:'Galarian Perrserker',r:'common'},{n:182,name:'Skarmory',r:'common'},{n:183,name:'Excadrill',r:'common'},{n:184,name:'Durant',r:'common'},{n:185,name:'Genesect V',r:'double'},{n:186,name:'Klefki',r:'common'},
+  {n:187,name:'Togedemaru',r:'common'},{n:188,name:'Meltan',r:'common'},{n:189,name:'Melmetal',r:'holo'},{n:190,name:'Corviknight',r:'holo'},{n:191,name:'Cufant',r:'common'},{n:192,name:'Copperajah',r:'common'},
+  {n:193,name:'Latias',r:'holo'},{n:194,name:'Latios',r:'holo'},{n:195,name:'Goomy',r:'common'},{n:196,name:'Sliggoo',r:'common'},{n:197,name:'Goodra',r:'holo'},{n:198,name:'Turtonator',r:'common'},
+  {n:199,name:'Meowth',r:'common'},{n:200,name:'Persian',r:'common'},{n:201,name:'Dodrio V',r:'double'},{n:202,name:'Chansey',r:'common'},{n:203,name:'Blissey',r:'holo'},{n:204,name:'Kangaskhan',r:'holo'},
+  {n:205,name:'Eevee',r:'common'},{n:206,name:'Snorlax',r:'common'},{n:207,name:'Dunsparce',r:'common'},{n:208,name:'Stantler',r:'common'},{n:209,name:'Smeargle',r:'common'},{n:210,name:'Skitty',r:'common'},
+  {n:211,name:'Delcatty',r:'common'},{n:212,name:'Buneary',r:'common'},{n:213,name:'Lopunny',r:'common'},{n:214,name:'Bunnelby',r:'common'},{n:215,name:'Diggersby',r:'common'},{n:216,name:'Hawlucha',r:'common'},
+  {n:217,name:'Greedent V',r:'double'},{n:218,name:'Greedent VMAX',r:'double'},{n:219,name:'Rookidee',r:'common'},{n:220,name:'Corvisquire',r:'common'},{n:221,name:'Wooloo',r:'common'},{n:222,name:'Wooloo',r:'common'},
+  {n:223,name:'Dubwool',r:'common'},{n:224,name:'Adventurer\'s Discovery',r:'common'},{n:225,name:'Battle VIP Pass',r:'common'},{n:226,name:'Bug Catcher',r:'common'},{n:227,name:'Chili & Cilan & Cress',r:'common'},{n:228,name:'Cook',r:'common'},
+  {n:229,name:'Cram-o-matic',r:'common'},{n:230,name:'Cross Switcher',r:'common'},{n:231,name:'Crossceiver',r:'common'},{n:232,name:'Dancer',r:'common'},{n:233,name:'Elesa\'s Sparkle',r:'common'},{n:234,name:'Farewell Bell',r:'common'},
+  {n:235,name:'Judge',r:'common'},{n:236,name:'Power Tablet',r:'common'},{n:237,name:'Quick Ball',r:'common'},{n:238,name:'Schoolboy',r:'common'},{n:239,name:'Schoolgirl',r:'common'},{n:240,name:'Shauna',r:'common'},
+  {n:241,name:'Sidney',r:'common'},{n:242,name:'Skaters\' Park',r:'common'},{n:243,name:'Spongy Gloves',r:'common'},{n:244,name:'Fusion Strike Energy',r:'common'},{n:245,name:'Celebi V',r:'gold1'},{n:246,name:'Tsareena V',r:'gold1'},
+  {n:247,name:'Chandelure V',r:'gold1'},{n:248,name:'Crabominable V',r:'gold1'},{n:249,name:'Boltund V',r:'gold1'},{n:250,name:'Mew V',r:'gold1'},{n:251,name:'Mew V',r:'gold1'},{n:252,name:'Sandaconda V',r:'gold1'},
+  {n:253,name:'Hoopa V',r:'gold1'},{n:254,name:'Genesect V',r:'gold1'},{n:255,name:'Genesect V',r:'gold1'},{n:256,name:'Greedent V',r:'gold1'},{n:257,name:'Greedent V',r:'gold1'},{n:258,name:'Chili & Cilan & Cress',r:'gold1'},
+  {n:259,name:'Dancer',r:'gold1'},{n:260,name:'Elesa\'s Sparkle',r:'gold1'},{n:261,name:'Schoolboy',r:'gold1'},{n:262,name:'Schoolgirl',r:'gold1'},{n:263,name:'Shauna',r:'gold1'},{n:264,name:'Sidney',r:'gold1'},
+  {n:265,name:'Chandelure VMAX',r:'gold2'},{n:266,name:'Inteleon VMAX',r:'gold2'},{n:267,name:'Boltund VMAX',r:'gold2'},{n:268,name:'Mew VMAX',r:'gold2'},{n:269,name:'Mew VMAX',r:'gold2'},{n:270,name:'Espeon VMAX',r:'gold2'},
+  {n:271,name:'Gengar VMAX',r:'gold2'},{n:272,name:'Greedent VMAX',r:'gold2'},{n:273,name:'Chili & Cilan & Cress',r:'gold2'},{n:274,name:'Dancer',r:'gold2'},{n:275,name:'Elesa\'s Sparkle',r:'gold2'},{n:276,name:'Schoolboy',r:'gold2'},
+  {n:277,name:'Schoolgirl',r:'gold2'},{n:278,name:'Shauna',r:'gold2'},{n:279,name:'Sidney',r:'gold2'},{n:280,name:'Flaaffy',r:'gold2'},{n:281,name:'Power Tablet',r:'gold2'},{n:282,name:'Training Court',r:'gold2'},
+  {n:283,name:'Grass Energy',r:'gold2'},{n:284,name:'Fire Energy',r:'gold2'}
+];
+SETS.swsh8.cards = CARDS_SWSH8;
+SETS.swsh8.total = CARDS_SWSH8.length;
 
 
 const RARITY_LABEL = {
